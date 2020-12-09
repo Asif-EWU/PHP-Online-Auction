@@ -30,29 +30,28 @@
     <title>Auction</title>
 </head>
 <body>
-    <div class="bg-image">
-        <div class="overlay">
-            <div class="container">
-                <div class="log-in">
-                    <img src="images/auction.png" alt=""> 
-                    
-                    <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
-                        <input type="text" name="email" placeholder="Email" required>
-                        <input type="password" name="password" placeholder="Password" required>
-                        <input class="btn btn-primary" type="submit" name="submit" value="Sign In">
-                    </form>
+    <img class="bg-image" src="images/judge.jpg" alt="">
+    <div class="dark-overlay"></div>
 
-                    <?php 
-                        if($loginErr) {
-                            echo '<div class="invalid-alert text-danger" role="alert">';
-                            echo $loginErr;
-                            echo '</div>';
-                        }
-                    ?>
+    <div class="container">
+        <div class="log-in">
+            <img src="images/auction.png" alt=""> 
+            
+            <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+                <input class="form-control" type="text" name="email" placeholder="Email" required>
+                <input class="form-control" type="password" name="password" placeholder="Password" required>
+                <input class="btn btn-primary" type="submit" name="submit" value="Sign In">
+            </form>
 
-                    <p class="register">Don't have an account? <a href="register.php">Register to bid</a></p>
-                </div>
-            </div>
+            <?php 
+                if($loginErr) {
+                    echo '<div class="invalid-alert text-danger" role="alert">';
+                    echo $loginErr;
+                    echo '</div>';
+                }
+            ?>
+
+            <p class="register">Don't have an account? <a href="register.php">Register First</a></p>
         </div>
     </div>
 </body>

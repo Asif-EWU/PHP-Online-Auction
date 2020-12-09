@@ -17,7 +17,6 @@ html, body {
     height: 100%;
 }
 .container {
-    text-align: center;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -30,19 +29,20 @@ html, body {
     padding-bottom: 30px;
     width: 60%;;
 }
+.log-in .red {
+    color: red;
+}
 .log-in img {
     width: 500px;
     height: 500px;   
     margin-bottom: -150px;
 }
-.log-in input, .invalid-alert {
-    width: 70%;
-    margin: 10px auto 0;
+.log-in input {
+    margin-bottom: 10px;
     padding: 10px;
     border-radius: 5px;
 }
-.log-in .register {
-    color: white;
+.log-in .login-instead {
     font-size: 20px;
     margin-top: 15px;
 }

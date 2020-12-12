@@ -7,7 +7,20 @@
     if(isset($_POST['submit'])) {
         $email = trim($_POST['email']);
         $password = $_POST['password'];
-        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+
+        if($email == "admin") {
+            $query = "SELECT * FROM admin";
+            $result = mysqli_query($db, $query);
+            $row = mysqli_fetch_array($result);
+            $dbPassword = $row["password"];
+
+            if(password_verify($password, $dbPassword)) {
+                header("Refresh:0; url=admin/admin_home.php");
+            }
+            else {
+                $loginErr = "Invalid email or password !! Try again";
+            } 
+        }
 
         $query = "SELECT * 
             FROM user 

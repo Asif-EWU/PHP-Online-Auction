@@ -16,6 +16,9 @@
         if(!mysqli_num_rows($result)) {
             $loginErr = "Invalid email or password !!  Try again";
         }
+        else {
+            header("Refresh:0; url=user/user_home.php");
+        }
     }
 ?>
 

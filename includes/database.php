@@ -2,10 +2,10 @@
     $host = 'localhost';
     $user = 'root';
     $password = '';
-    $db = 'cse480';
+    $dbName = 'cse480';
 
-    $conn = mysqli_connect($host, $user, $password, $db);
-    if(!$conn) {
+    $db = mysqli_connect($host, $user, $password, $dbName);
+    if(!$db) {
         die("Error: Could not connect database !!");
     }
 ?>

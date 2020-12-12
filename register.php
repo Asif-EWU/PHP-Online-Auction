@@ -1,4 +1,7 @@
 <?php
+    include("includes/database.php");
+    session_start();
+
     function filterInput($data) {
         $data = trim($data);
         $data = stripslashes($data);
@@ -6,12 +9,13 @@
         return $data;
     }
 
-    $name = $email = $password = $password2 = $address = $city = $country = $countryCode = $gender = "";
+    $name = $email = $password = $password2 = $address = $city = $country = $countryCode = $gender = $registrationStatus = "";
+    $dob = "1990-01-01";
     $nameErr = $emailErr = $passwordErr = $addressErr = $cityErr = $countryErr = $countryCodeErr = $ageErr = "";
     $spaceRegex = "/\s\s+/";
     $nameRegex = "/^[a-zA-Z'\. ]*$/";
     $emailRegex = "/^[a-z\d\._-]+@([a-z\d-]+\.)+[a-z]{2,6}$/i";
-    $countryCodeRegex = "/^\d{1-3}(-\d{3-4})?$/";
+    $countryCodeRegex = "/^\d{1,3}(-\d{3,4})?$/";
 
     if(isset($_POST["submit"])) {
         // Name
@@ -48,8 +52,11 @@
         if(!strlen($country)) $countryErr = "* Invalid country";
 
         // Country Code
-        $countryCode = $_POST["countryCode"];
+        $countryCode = filterInput($_POST["countryCode"]);
         if(!preg_match($countryCodeRegex, $countryCode)) $countryCodeErr = "* Invalid country code";
+
+        // Gender
+        $gender = $_POST["gender"];
 
         // Date of Birth
         $dob = $_POST['dob'];
@@ -58,6 +65,34 @@
         $thisYear = explode('-', $todayDate)[0];
         $age = $thisYear - $birthYear;
         if($age < 18) $ageErr ="* Too young to register";
+        
+        if($age <= 25) $ageCatagoty = "young";
+        else if($age <= 45) $ageCatagoty = "midage";
+        else $ageCatagoty = "old";
+
+        // MySQL
+        $query = "SELECT * FROM user WHERE email = '$email' ";
+        $result = mysqli_query($db, $query);
+
+		if(mysqli_num_rows($result)) {
+            $registrationStatus = "Another account has already been registered with this email !!"; 
+            $registerHtml = "<p class='alert alert-warning'>$registrationStatus</p>";
+    	}
+		else
+		{
+			$query = "INSERT INTO user (name, email, password, address, city, country, country_code, gender, dob, age) 
+                VALUES ('$name', '$email', '$password', '$address', '$city', '$country', '$countryCode', '$gender', '$dob', '$age')";
+			if(mysqli_query($db, $query)) {
+                $registrationStatus = "Account created successfully !!";
+                $registerHtml = "<p class='alert alert-success'>$registrationStatus</p>";
+                
+                header("Refresh:1; url=user/user_home.php");
+			}
+			else {
+                $registrationStatus = "Registration Failed !!";
+                $registerHtml = "<p class='alert alert-danger'>$registrationStatus</p>";
+            }
+        }        
     }
 ?>
 
@@ -80,16 +115,17 @@
             <div class="text-center">
                 <img src="images/auction.png" alt="">
             </div>
+            <?php echo $registerHtml; ?>
             <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label for="name">Full Name <span class="red">*</span></label>
-                        <input type="text" class="form-control" id="name" name="name" placeholder="Muhammad Abu Bakar Siddique" value="<?php echo $name; ?>" minlength="5" maxlength="35" required>
+                        <input type="text" class="form-control" id="name" name="name" placeholder="ex: Muhammad Abu Bakar Siddique" value="<?php echo $name; ?>" minlength="5" maxlength="35" required>
                         <span class="pink"><?php echo $nameErr; ?></span>
                     </div>
                     <div class="form-group col-md-6">
                         <label for="email">Email <span class="red">*</span></label>
-                        <input type="email" class="form-control" id="email" name="email" placeholder="Email" value="<?php echo $email; ?>" maxlength="35" required>
+                        <input type="email" class="form-control" id="email" name="email" placeholder="ex: omar@gmail.com" value="<?php echo $email; ?>" minlength="8" maxlength="35" required>
                         <span class="pink"><?php echo $emailErr; ?></span>
                     </div>
                 </div>
@@ -106,23 +142,23 @@
                 </div>
                 <div class="form-group">
                     <label for="address">Address <span class="red">*</span></label>
-                    <input type="text" class="form-control" id="address" name="address" placeholder="1234 Main St" value="<?php echo $address; ?>" required>
+                    <input type="text" class="form-control" id="address" name="address" placeholder="ex: 1234 Main St" value="<?php echo $address; ?>" required>
                     <span class="pink"><?php echo $addressErr; ?></span>
                     </div>
                 <div class="form-row">
                     <div class="form-group col-md-4">
                         <label for="city">City <span class="red">*</span></label>
-                        <input type="text" class="form-control" id="city" name="city" maxlength="20" placeholder="City" value="<?php echo $city; ?>" required>
+                        <input type="text" class="form-control" id="city" name="city" maxlength="20" placeholder="ex: Dhaka" value="<?php echo $city; ?>" required>
                         <span class="pink"><?php echo $cityErr; ?></span>
                     </div>
                     <div class="form-group col-md-4">
                         <label for="country">Country <span class="red">*</span></label>
-                        <input type="text" class="form-control" id="country" name="country" maxlength="20" placeholder="Country" value="<?php echo $country; ?>" required>
+                        <input type="text" class="form-control" id="country" name="country" maxlength="20" placeholder="ex: Bangladesh" value="<?php echo $country; ?>" required>
                         <span class="pink"><?php echo $countryErr; ?></span>
                     </div>
                     <div class="form-group col-md-4">
                         <label for="countryCode">Country Code <span class="red">*</span></label>
-                        <input type="text" class="form-control" id="countryCode" name="countryCode" maxlength="7" placeholder="Country Code" value="<?php echo $countryCode; ?>" required>
+                        <input type="text" class="form-control" id="countryCode" name="countryCode" maxlength="7" placeholder="ex: 880" value="<?php echo $countryCode; ?>" required>
                         <span class="pink"><?php echo $countryCodeErr; ?></span>
                     </div>
                 </div>
@@ -141,7 +177,7 @@
                     </div>
                 </div>
                 <div class="form-check h5">
-                    <input class="form-check-input" type="checkbox" id="allow" required>
+                    <input class="form-check-input" type="checkbox" id="allow" checked required>
                     <label class="form-check-label" for="allow">
                         I agree to allow cookies to this website
                     </label>

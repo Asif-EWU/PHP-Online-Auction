@@ -9,7 +9,7 @@
         return $data;
     }
 
-    $name = $email = $password = $password2 = $address = $city = $country = $countryCode = $gender = $registrationStatus = "";
+    $name = $email = $password = $password2 = $address = $city = $country = $countryCode = $gender = $registerHtml = "";
     $dob = "1990-01-01";
     $nameErr = $emailErr = $passwordErr = $addressErr = $cityErr = $countryErr = $countryCodeErr = $ageErr = "";
     $spaceRegex = "/\s\s+/";
@@ -37,6 +37,7 @@
         $password = $_POST['password1'];
         $password2 = $_POST['password2']; 
         if($password !== $password2) $passwordErr = "* Passwords don't match";
+        else $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
         // Address
         $address = filterInput($_POST['address']);
@@ -81,11 +82,11 @@
 		else
 		{
 			$query = "INSERT INTO user (name, email, password, address, city, country, country_code, gender, dob, age) 
-                VALUES ('$name', '$email', '$password', '$address', '$city', '$country', '$countryCode', '$gender', '$dob', '$age')";
+                VALUES ('$name', '$email', '$hashedPassword', '$address', '$city', '$country', '$countryCode', '$gender', '$dob', '$age')";
 			if(mysqli_query($db, $query)) {
                 $registrationStatus = "Account created successfully !!";
                 $registerHtml = "<p class='alert alert-success'>$registrationStatus</p>";
-                
+
                 header("Refresh:1; url=user/user_home.php");
 			}
 			else {

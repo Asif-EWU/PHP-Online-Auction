@@ -32,6 +32,9 @@ html, body {
     padding-bottom: 30px;
     width: 60%;;
 }
+.log-in form {
+    position: relative;
+}
 .log-in img {
     width: 500px;
     height: 500px;   

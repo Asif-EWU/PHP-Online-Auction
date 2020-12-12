@@ -7,17 +7,26 @@
     if(isset($_POST['submit'])) {
         $email = trim($_POST['email']);
         $password = $_POST['password'];
+        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
         $query = "SELECT * 
             FROM user 
-            WHERE (email = '$email' AND password = '$password') ";
+            WHERE email = '$email' ";
         
-        $result = mysqli_query($conn, $query);
+        $result = mysqli_query($db, $query);
         if(!mysqli_num_rows($result)) {
             $loginErr = "Invalid email or password !!  Try again";
         }
         else {
-            header("Refresh:0; url=user/user_home.php");
+            $row = mysqli_fetch_array($result);
+            $dbPassword = $row["password"];
+            
+            if(password_verify($password, $dbPassword)) {
+                header("Refresh:0; url=user/user_home.php");
+            }
+            else {
+                $loginErr = "Invalid email or password !! Try again";
+            }                
         }
     }
 ?>

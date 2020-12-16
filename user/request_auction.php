@@ -27,7 +27,7 @@
         if(! $check2 = getimagesize($_FILES["image2"]["tmp_name"]) ) $image2Err = "File is not an image";
         if(! $check3 = getimagesize($_FILES["image3"]["tmp_name"]) ) $image3Err = "File is not an image";
 
-
+        
     }   
 ?>
 

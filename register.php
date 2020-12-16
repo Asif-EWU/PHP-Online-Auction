@@ -1,5 +1,5 @@
 <?php
-    include("includes/database.php");
+    require_once("includes/database.php");
     session_start();
 
     function filterInput($data) {

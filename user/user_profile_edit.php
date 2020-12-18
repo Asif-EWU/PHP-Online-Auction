@@ -61,15 +61,10 @@
         if(! $errCount) {
             $query = "UPDATE user SET address='$address', city='$city', country='$country', country_code='$countryCode' WHERE id='$id' ";
             if(mysqli_query($db, $query)) {
-                $registrationStatus = "Account updated successfully !!";
-                $registerHtml = "<p class='alert alert-success'>$registrationStatus</p>";
-
+                $status = "<p class='alert alert-success'>Account updated successfully !!</p>";
                 header("Refresh:1; url=user_profile.php");
             }
-            else {
-                $registrationStatus = "Update Failed !!";
-                $registerHtml = "<p class='alert alert-danger'>$registrationStatus</p>";
-            }
+            else $status = "<p class='alert alert-danger'>Update Failed !!</p>";
         }        
     }
 ?>
@@ -84,7 +79,7 @@
     <title>Document</title>
 
     <style>
-        .pink {color: pink;}
+        .pink {color: red;}
     </style>
 </head>
 <body>
@@ -97,6 +92,7 @@
     </ul>
 
     <div class="container">
+        <?php echo $status ?>
         <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
             <div class="form-row">
                 <div class="form-group col-md-6">

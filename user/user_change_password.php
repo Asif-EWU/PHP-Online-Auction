@@ -6,6 +6,12 @@
     $countErr = 0;
     $currentPasswordErr = $newPasswordErr = $confirmNewPasswordErr = $status = "";
 
+    if(isset($_POST['logout'])) {
+        session_destroy();
+        setcookie("logout", true, time() + (3600 * 24 * 30), "/");
+        header("Refresh:0; url=../index.php");
+    }
+
     if(isset($_POST['update'])) {
         $currentPassword = $_POST['currentPassword'];
         $newPassword = $_POST['newPassword'];
@@ -17,7 +23,7 @@
         $dbPassword = $row['password'];
 
         if(! password_verify($currentPassword, $dbPassword)) {
-            $currentPasswordErr = "Curret password doesn't match";
+            $currentPasswordErr = "Current password doesn't match";
             $countErr++;
         }
         if($currentPassword === $newPassword) {
@@ -50,7 +56,7 @@
     <title>Document</title>
 </head>
 <style>
-    .pink {color: pink;}
+    .pink {color: red;}
 </style>
 <body>
     <ul>
@@ -58,7 +64,11 @@
         <li><a href="request_auction.php">Request Auction</a></li>
         <li><a href="#">Messages</a></li>
         <li><a href="user_profile.php">Profile</a></li>
-        <li><a href="../index.php">Logout</a></li>
+        <li>
+            <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+                <input class="btn btn-link" type="submit" name="logout" value="Logout">
+            </form>
+        </li>
     </ul>
 
     <div class="container mt-5">

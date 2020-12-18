@@ -1,8 +1,10 @@
 <?php 
-    require_once("includes/database.php");
     session_start();
+    require_once("includes/database.php");
 
-    $loginErr = "";
+    $email = $password = $loginErr = "";
+    if(isset($_COOKIE["email"])) $email = $_COOKIE["email"];
+    if(isset($_COOKIE["password"])) $password = $_COOKIE["password"];
 
     function login($tableName, $db, $email, $password) {
         $query = "SELECT * FROM " . $tableName . " WHERE email = '$email' ";
@@ -15,6 +17,9 @@
         
         $_SESSION["id"] = $row["id"];
         $_SESSION["name"] = $row["name"];
+        setcookie("email", $email, time() + (3600 * 24 * 30), "/");
+        setcookie("password", $password, time() + (3600 * 24 * 30), "/");
+        setcookie("logout", false, time() + (3600 * 24 * 30), "/");
         return true;
     }
 
@@ -47,8 +52,12 @@
             <img src="images/auction.png" alt=""> 
             
             <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
-                <input class="form-control" type="text" name="email" placeholder="Email" required>
-                <input class="form-control" type="password" name="password" placeholder="Password" required>
+                <input class="form-control" type="text" name="email" value="<?php echo $email; ?>" placeholder="Email" required>
+                <input class="form-control" type="password" name="password" value="<?php echo $password; ?>" placeholder="Password" required>
+                <div class="remember-me">
+                    <input type="checkbox" name="rememberMe" id="rememberMe">
+                    <label for="rememberMe">Remember Me</label>
+                </div>
                 <input class="btn btn-primary" type="submit" name="submit" value="Sign In">
             </form>
 

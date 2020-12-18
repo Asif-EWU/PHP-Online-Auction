@@ -1,6 +1,6 @@
 <?php
-    require_once("includes/database.php");
     session_start();
+    require_once("includes/database.php");
 
     function filterInput($data) {
         $data = trim($data);
@@ -12,6 +12,7 @@
     $name = $email = $password = $password2 = $address = $city = $country = $countryCode = $gender = $registerHtml = "";
     $dob = "1990-01-01";
     $nameErr = $emailErr = $passwordErr = $addressErr = $cityErr = $countryErr = $countryCodeErr = $ageErr = "";
+    $errCount = 0;
     $spaceRegex = "/\s\s+/";
     $nameRegex = "/^[a-zA-Z'\. ]*$/";
     $emailRegex = "/^[a-z\d\._-]+@([a-z\d-]+\.)+[a-z]{2,6}$/i";
@@ -25,36 +26,53 @@
 
         if(!preg_match($nameRegex, $name)) {
             $nameErr = "* Invalid name";
+            $errCount++;
         }
 
         // Email
         $email = filterInput($_POST['email']);
         if(!preg_match($emailRegex, $email)) {
             $emailErr = "* Invalid email";
+            $errCount++;
         }
 
         // Password
         $password = $_POST['password1'];
         $password2 = $_POST['password2']; 
-        if($password !== $password2) $passwordErr = "* Passwords don't match";
+        if($password !== $password2) {
+            $passwordErr = "* Passwords don't match";
+            $errCount++;
+        }
         else $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
         // Address
         $address = filterInput($_POST['address']);
         $address = preg_replace($spaceRegex, ' ', $address);
-        if(strlen($address) < 10) $addressErr = "* Incomplete address";
+        if(strlen($address) < 10) {
+            $addressErr = "* Incomplete address";
+            $errCount++;
+        }
 
         // City
         $city = filterInput($_POST['city']);
-        if(!strlen($city)) $cityErr = "* Invalid city";
+        if(strlen($city) < 3) {
+            $cityErr = "* Invalid city";
+            $errCount++;
+        }
 
         // Country
         $country = filterInput($_POST['country']);
-        if(!strlen($country)) $countryErr = "* Invalid country";
+        if(strlen($country) < 3) {
+            $countryErr = "* Invalid country";
+            $errCount++;
+        }
 
         // Country Code
         $countryCode = filterInput($_POST["countryCode"]);
-        if(!preg_match($countryCodeRegex, $countryCode)) $countryCodeErr = "* Invalid country code";
+        if(!preg_match($countryCodeRegex, $countryCode)) {
+            $countryCodeErr = "* Invalid country code";
+            $errCount++;
+        }
 
         // Gender
         $gender = $_POST["gender"];
@@ -65,33 +83,39 @@
         $birthYear = explode('-', $dob)[0];
         $thisYear = explode('-', $todayDate)[0];
         $age = $thisYear - $birthYear;
-        if($age < 18) $ageErr ="* Too young to register";
+        if($age < 18) {
+            $ageErr ="* Too young to register";
+            $errCount++;
+        }
         
         if($age <= 25) $ageCatagoty = "young";
         else if($age <= 45) $ageCatagoty = "midage";
         else $ageCatagoty = "old";
 
-        // MySQL
-        $query = "SELECT * FROM user WHERE email = '$email' ";
-        $result = mysqli_query($db, $query);
+        if(! $errCount) {
+            $query = "SELECT * FROM user WHERE email = '$email' ";
+            $result1 = mysqli_query($db, $query);
+            $query = "SELECT * FROM admin WHERE email = '$email' ";
+            $result2 = mysqli_query($db, $query);
 
-		if(mysqli_num_rows($result)) {
-            $registrationStatus = "Another account has already been registered with this email !!"; 
-            $registerHtml = "<p class='alert alert-warning'>$registrationStatus</p>";
-    	}
-		else
-		{
-			$query = "INSERT INTO user (name, email, password, address, city, country, country_code, gender, dob, age) 
-                VALUES ('$name', '$email', '$hashedPassword', '$address', '$city', '$country', '$countryCode', '$gender', '$dob', '$age')";
-			if(mysqli_query($db, $query)) {
-                $registrationStatus = "Account created successfully !!";
-                $registerHtml = "<p class='alert alert-success'>$registrationStatus</p>";
+            if(mysqli_num_rows($result1) || mysqli_num_rows($result2)) {
+                $registrationStatus = "Another account has already been registered with this email !!"; 
+                $registerHtml = "<p class='alert alert-warning'>$registrationStatus</p>";
+            }
+            else
+            {
+                $query = "INSERT INTO user (name, email, password, address, city, country, country_code, gender, dob, age) 
+                    VALUES ('$name', '$email', '$hashedPassword', '$address', '$city', '$country', '$countryCode', '$gender', '$dob', '$age')";
+                if(mysqli_query($db, $query)) {
+                    $registrationStatus = "Account created successfully !!";
+                    $registerHtml = "<p class='alert alert-success'>$registrationStatus</p>";
 
-                header("Refresh:1; url=user/user_home.php");
-			}
-			else {
-                $registrationStatus = "Registration Failed !!";
-                $registerHtml = "<p class='alert alert-danger'>$registrationStatus</p>";
+                    header("Refresh:1; url=index.php");
+                }
+                else {
+                    $registrationStatus = "Registration Failed !!";
+                    $registerHtml = "<p class='alert alert-danger'>$registrationStatus</p>";
+                }
             }
         }        
     }
@@ -167,8 +191,15 @@
                     <div class="form-group col-md-6">
                         <label for="gender">Gender</label>
                         <select id="gender" name="gender" required>
-                            <option value="male">Male</option>
-                            <option value="female">Female</option>
+                            <?php if($gender == 'female') { 
+                                echo '<option value="male">Male</option>';
+                                echo '<option value="female" selected>Female</option>';
+                            }
+                            else {
+                                echo '<option value="male" selected>Male</option>';
+                                echo '<option value="female">Female</option>';
+                            }
+                            ?>
                         </select>
                     </div>
                     <div class="form-group col-md-6">

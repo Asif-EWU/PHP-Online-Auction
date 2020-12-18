@@ -4,43 +4,27 @@
 
     $loginErr = "";
 
+    function login($tableName, $db, $email, $password) {
+        $query = "SELECT * FROM " . $tableName . " WHERE email = '$email' ";
+        $result = mysqli_query($db, $query);
+
+        if(! mysqli_num_rows($result)) return false;
+        $row = mysqli_fetch_array($result);
+        $dbPassword = $row["password"];
+        if(! password_verify($password, $dbPassword)) return false;
+        
+        $_SESSION["id"] = $row["id"];
+        $_SESSION["name"] = $row["name"];
+        return true;
+    }
+
     if(isset($_POST['submit'])) {
         $email = trim($_POST['email']);
         $password = $_POST['password'];
 
-        if($email == "admin") {
-            $query = "SELECT * FROM admin";
-            $result = mysqli_query($db, $query);
-            $row = mysqli_fetch_array($result);
-            $dbPassword = $row["password"];
-
-            if(password_verify($password, $dbPassword)) {
-                header("Refresh:0; url=admin/admin_home.php");
-            }
-            else {
-                $loginErr = "Invalid email or password !! Try again";
-            } 
-        }
-
-        $query = "SELECT * 
-            FROM user 
-            WHERE email = '$email' ";
-        
-        $result = mysqli_query($db, $query);
-        if(!mysqli_num_rows($result)) {
-            $loginErr = "Invalid email or password !!  Try again";
-        }
-        else {
-            $row = mysqli_fetch_array($result);
-            $dbPassword = $row["password"];
-            
-            if(password_verify($password, $dbPassword)) {
-                header("Refresh:0; url=user/user_home.php");
-            }
-            else {
-                $loginErr = "Invalid email or password !! Try again";
-            }                
-        }
+        if(login('admin', $db, $email, $password)) header("Refresh:0; url=admin/admin_home.php");
+        else if(login('user', $db, $email, $password)) header("Refresh:0; url=user/user_home.php");
+        else $loginErr = "Invalid email or password !! Try again";
     }
 ?>
 

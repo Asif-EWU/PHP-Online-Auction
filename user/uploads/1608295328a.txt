@@ -1,0 +1,55 @@
+Game Theory
+https://www.hackerrank.com/contests/5-days-of-game-theory/challenges/filters/page:1
+
+windows activation
+https://www.youtube.com/watch?v=tD0mFYPAlD8&feature=youtu.be
+
+ubuntu google doc: https://docs.google.com/document/d/1aAcUICWPMsZMQv4H3zKMIUIRO-RWFlE6NWF15UT7XLY/edit?ts=5d4d44a2
+
+55 hutton road ts4 2LG
+
+overflow, media query, animation, transition, css3, css selectors
+
+audio, video, iframe, semantic tags, aside tag, html vs html5, button type, input attribute- pattern, table, forms, tag attributes, data attribute
+
+hamburger, flex
+column offset
+
+getElementById, getElementsByClassName, getElementsByTag
+querySelector, querySelectorAll
+setAttribute, createElement, appendChild, dom properties, .childNodes, .parentNode, element.remove(), addEventListener, EVENT, target.closest(), 
+eval(), calc()
+
+spread operator, destructure
+async, await, event loop
+
+<form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>"></form>
+
+
+shrikantamazumder3@gmail.com
+
+times new roman - 12
+https://www.overleaf.com/project/5f9e4fae13f8440001b93ce0
+
+
+react context api, redux
+
+remove image background: https://www.slazzer.com/
+
+480 project: online auction system.
+search history er upore recommend korte hobe. 
+colaborating filtering, other filtering, similarity filtering
+
+CSE498: https://docs.google.com/document/d/1xpl2soKg-Xb86cCejquNdZPK4KPamIcN94uN_3LX2S8/edit
+
+
+
+
+mongoimport --db restaurantDB --collection restaurant --drop --file C:\restaurants.json
+
+<?php
+    $conn = mysqli_connect('localhost','root','','registration');
+    $sql = "SELECT * FROM users";
+    $result = mysqli_query($conn, $sql);
+    echo mysqli_num_rows($result);
+?>

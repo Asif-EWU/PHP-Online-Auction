@@ -7,7 +7,13 @@
     <title>Auction</title>
 </head>
 <body>
-    <?php require_once("../includes/user_navbar.php"); ?>
+    <ul>
+        <li><a href="#">Home</a></li>
+        <li><a href="request_auction.php">Request Auction</a></li>
+        <li><a href="#">Messages</a></li>
+        <li><a href="user_profile.php">Profile</a></li>
+        <li><a href="../index.php">Logout</a></li>
+    </ul>
     This is home !!
 </body>
 </html>

@@ -8,7 +8,7 @@
 
     if(isset($_POST['logout'])) {
         session_destroy();
-        setcookie("logout", true, time() + (3600 * 24 * 30), "/");
+        if(isset($_COOKIE["logout"])) setcookie("logout", 1, time() + (3600 * 24 * 30), "/");
         header("Refresh:0; url=../index.php");
     }
 

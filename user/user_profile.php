@@ -2,6 +2,12 @@
     session_start();
     include("../includes/database.php");
 
+    if(isset($_POST['logout'])) {
+        session_destroy();
+        if(isset($_COOKIE["logout"])) setcookie("logout", 1, time() + (3600 * 24 * 30), "/");
+        header("Refresh:0; url=../index.php");
+    }
+    
     if(isset($_POST['editProfile'])) header('Refresh:0; url=user_profile_edit.php');
     if(isset($_POST['changePassword'])) header('Refresh:0; url=user_change_password.php');
 
@@ -26,7 +32,11 @@
         <li><a href="request_auction.php">Request Auction</a></li>
         <li><a href="#">Messages</a></li>
         <li><a href="user_profile.php">Profile</a></li>
-        <li><a href="../index.php">Logout</a></li>
+        <li>
+            <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+                <input class="btn btn-link" type="submit" name="logout" value="Logout">
+            </form>
+        </li>
     </ul>
 
     <div class="container">

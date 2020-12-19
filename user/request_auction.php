@@ -6,6 +6,12 @@
     $name = $basePrice = $description1 = $description2 = $description3 = $description4 = $description5 = $imageName1 = $imageName2 = $imageName3 = "";
     $image1Err = $image2Err = $image3Err = "";
 
+    if(isset($_POST['logout'])) {
+        session_destroy();
+        if(isset($_COOKIE["logout"])) setcookie("logout", 1, time() + (3600 * 24 * 30), "/");
+        header("Refresh:0; url=../index.php");
+    }
+
     if(isset($_POST['submit'])) {
         $name = $_POST['name'];
         $basePrice = $_POST['price'];
@@ -77,7 +83,11 @@
         <li><a href="request_auction.php">Request Auction</a></li>
         <li><a href="#">Messages</a></li>
         <li><a href="user_profile.php">Profile</a></li>
-        <li><a href="../index.php">Logout</a></li>
+        <li>
+            <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+                <input class="btn btn-link" type="submit" name="logout" value="Logout">
+            </form>
+        </li>
     </ul>
 
     <div class="container mt-5">

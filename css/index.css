@@ -50,6 +50,7 @@ html, body {
     width: 70%;
     margin: 10px auto 0;
     text-align: left;
+    font-size: 16px;
 }
 .log-in .register {
     color: white;

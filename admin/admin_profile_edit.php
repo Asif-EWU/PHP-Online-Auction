@@ -10,7 +10,7 @@
     }
     
     $id = $_SESSION["id"];
-    $query = "SELECT * FROM user where id = '$id' ";
+    $query = "SELECT * FROM admin where id = '$id' ";
     $result = mysqli_query($db, $query);
     $row = mysqli_fetch_array($result);
     
@@ -59,10 +59,10 @@
         }
 
         if(! $errCount) {
-            $query = "UPDATE user SET address='$address', city='$city', country='$country', country_code='$countryCode' WHERE id='$id' ";
+            $query = "UPDATE admin SET address='$address', city='$city', country='$country', country_code='$countryCode' WHERE id='$id' ";
             if(mysqli_query($db, $query)) {
                 $status = "<p class='alert alert-success'>Account updated successfully !!</p>";
-                header("Refresh:1; url=user_profile.php");
+                header("Refresh:1; url=admin_profile.php");
             }
             else $status = "<p class='alert alert-danger'>Update Failed !!</p>";
         }        
@@ -83,7 +83,7 @@
     </style>
 </head>
 <body>
-    <?php include('../includes/user_navbar.php'); ?>
+    <?php include('../includes/admin_navbar.php'); ?>
 
     <div class="container">
         <?php echo $status ?>

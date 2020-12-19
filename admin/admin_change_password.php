@@ -11,7 +11,7 @@
         $newPassword = $_POST['newPassword'];
         $confirmNewPassword = $_POST['confirmNewPassword'];
 
-        $query = "SELECT * FROM user WHERE id='$id' "; 
+        $query = "SELECT * FROM admin WHERE id='$id' "; 
         $result = mysqli_query($db, $query);
         $row = mysqli_fetch_array($result);
         $dbPassword = $row['password'];
@@ -35,7 +35,7 @@
             if(mysqli_query($db, $query)) $status = "<p class='alert alert-success'>Password Changed Successfully !!</p>";
             else $status = "<p class='alert alert-danger'>Couldn't Change Password !!</p>";
 
-            header("Refresh:1; url=user_profile.php");
+            header("Refresh:1; url=admin_profile.php");
         }
     }
 ?>
@@ -53,7 +53,7 @@
     .pink {color: red;}
 </style>
 <body>
-    <?php include('../includes/user_navbar.php'); ?>    
+    <?php include('../includes/admin_navbar.php'); ?>    
 
     <div class="container mt-5">
         <?php echo $status; ?>

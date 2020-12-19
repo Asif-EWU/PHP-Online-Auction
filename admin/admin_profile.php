@@ -2,11 +2,11 @@
     session_start();
     include("../includes/database.php");
     
-    if(isset($_POST['editProfile'])) header('Refresh:0; url=user_profile_edit.php');
-    if(isset($_POST['changePassword'])) header('Refresh:0; url=user_change_password.php');
+    if(isset($_POST['editProfile'])) header('Refresh:0; url=admin_profile_edit.php');
+    if(isset($_POST['changePassword'])) header('Refresh:0; url=admin_change_password.php');
 
     $id = $_SESSION['id'];
-    $query = "SELECT * FROM user WHERE id = '$id' ";
+    $query = "SELECT * FROM admin WHERE id = '$id' ";
     $result = mysqli_query($db, $query);
     $row = mysqli_fetch_array($result);
 ?>
@@ -21,7 +21,7 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 </head>
 <body>
-    <?php include('../includes/user_navbar.php'); ?>
+    <?php include('../includes/admin_navbar.php'); ?>
 
     <div class="container">
         <br><h1 class="text-center">PROFILE</h1><br>

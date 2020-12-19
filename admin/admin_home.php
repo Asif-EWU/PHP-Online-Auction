@@ -7,7 +7,7 @@
     <title>Auction</title>
 </head>
 <body>
-    <?php include('../includes/user_navbar.php'); ?>
+    <?php include('../includes/admin_navbar.php'); ?>
     This is home !!
 </body>
 </html>

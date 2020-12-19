@@ -1,7 +1,7 @@
 <?php 
     require_once("../includes/database.php");
 
-    $ownerId = 1001;
+    $ownerId = $_SESSION["id"];
     $errCount = 0;
     $name = $basePrice = $description1 = $description2 = $description3 = $description4 = $description5 = $imageName1 = $imageName2 = $imageName3 = "";
     $image1Err = $image2Err = $image3Err = $status = "";

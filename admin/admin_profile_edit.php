@@ -20,7 +20,7 @@
     $city = $row["city"];
     $country = $row["country"];
     $countryCode = $row["country_code"];
-    $registerHtml = "";
+    $status = "";
     $addressErr = $cityErr = $countryErr = $countryCodeErr = "";
 
     if(isset($_POST['update'])) {

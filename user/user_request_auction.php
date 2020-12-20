@@ -46,7 +46,13 @@
         if(! $errCount) {
             $query = "INSERT INTO product(owner_id, name, base_price, image1, image2, image3, description1, description2, description3, description4, description5) 
             VALUES ('$ownerId', '$name', '$basePrice', '$newImageName1', '$newImageName2', '$newImageName3', '$description1', '$description2', '$description3', '$description4', '$description5')";
+            
             if(mysqli_query($db, $query)) {
+                $productId = mysqli_insert_id($db);
+                $productStatus = "pending";
+                $query2 = "INSERT INTO product_status(product_id, user_id, status) VALUES ('$productId', '$ownerId', '$productStatus')";
+                mysqli_query($db, $query2);
+
                 $status = "<p class='alert alert-success'>Request Sent !!</p>";
                 move_uploaded_file($_FILES["image1"]["tmp_name"], $targetFile1);
                 move_uploaded_file($_FILES["image2"]["tmp_name"], $targetFile2);

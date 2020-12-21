@@ -14,6 +14,8 @@
     $userName = $row['user_name'];
     $basePrice = $row['base_price'];
     $lastBid = 34.98;
+    $lastBidder = "John Doe";
+
     $startDate = "21 Dec, 2020";
     $endDate = "21 Dec, 2020";
     $image1 = $row['image1'];
@@ -81,15 +83,19 @@
                 End Date: <?php echo $endDate?>
             </p>
             <div class="bid-section d-flex flex-row align-items-center">
-                <div class="price col-md-5 h4 pl-0">
-                    Base Price: $<?php echo $basePrice?> 
-                    <br />
-                    Last Bid: $<?php echo $lastBid?>
+                <div class="price col-md-5 pl-0">
+                    Base Price: <br>
+                    <span class="h4">$<?php echo $basePrice?></span> <br>
+                    Last Bid: <br>
+                    <span class="h4">$<?php echo $lastBid?></span> <br>
+                    Last Bidder: <br>
+                    <span class="h4">$<?php echo $lastBidder?></span> <br>
+
                 </div>
                 <div class="bid col-md-7">
-                    <form action="">
+                    <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
                         <label for="bid-price">Place Your Bid (higher than last bid)</label>
-                        <input type="number" class="form-control" id="bid-price" min="0" step=".01" pattern="^\d*(\.\d{0,2})?$" name="price" value="<?php echo $lastBid+1; ?>" placeholder="Max 2 decimal points" required>
+                        <input type="number" class="form-control" id="bid-price" min="<?php echo $lastBid+1 ?>" step=".01" pattern="^\d*(\.\d{0,2})?$" name="price" value="<?php echo $lastBid+1 ?>" placeholder="Max 2 decimal points" required>
                         <input class="btn btn-primary mt-2" type="submit" name="submit" value="Submit">
                     </form>
                 </div>

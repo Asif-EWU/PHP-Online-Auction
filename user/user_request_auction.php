@@ -1,7 +1,8 @@
 <?php 
+    session_start();
     require_once("../includes/database.php");
 
-    $ownerId = $_SESSION["id"];
+    $ownerId = $_SESSION["user_id"];
     $errCount = 0;
     $name = $basePrice = $description1 = $description2 = $description3 = $description4 = $description5 = $imageName1 = $imageName2 = $imageName3 = "";
     $image1Err = $image2Err = $image3Err = $status = "";
@@ -44,10 +45,12 @@
         }
 
         if(! $errCount) {
+            // insert operation in product table
             $query = "INSERT INTO product(owner_id, name, base_price, image1, image2, image3, description1, description2, description3, description4, description5) 
             VALUES ('$ownerId', '$name', '$basePrice', '$newImageName1', '$newImageName2', '$newImageName3', '$description1', '$description2', '$description3', '$description4', '$description5')";
             
             if(mysqli_query($db, $query)) {
+                // insert operation in product_status table
                 $productId = mysqli_insert_id($db);
                 $productStatus = "pending";
                 $query2 = "INSERT INTO product_status(product_id, user_id, status) VALUES ('$productId', '$ownerId', '$productStatus')";

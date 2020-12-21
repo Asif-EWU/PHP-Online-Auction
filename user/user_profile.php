@@ -5,8 +5,8 @@
     if(isset($_POST['editProfile'])) header('Refresh:0; url=user_profile_edit.php');
     if(isset($_POST['changePassword'])) header('Refresh:0; url=user_change_password.php');
 
-    $id = $_SESSION['id'];
-    $query = "SELECT * FROM user WHERE id = '$id' ";
+    $id = $_SESSION['user_id'];
+    $query = "SELECT * FROM user WHERE user_id = '$id' ";
     $result = mysqli_query($db, $query);
     $row = mysqli_fetch_array($result);
 ?>
@@ -27,8 +27,8 @@
         <br><h1 class="text-center">PROFILE</h1><br>
 
         <ul class="list-group">
-            <li class="list-group-item">ID            : <?php echo $row['id'] ?> </li>
-            <li class="list-group-item">Name          : <?php echo $row['name'] ?> </li>
+            <li class="list-group-item">ID            : <?php echo $row['user_id'] ?> </li>
+            <li class="list-group-item">Name          : <?php echo $row['user_name'] ?> </li>
             <li class="list-group-item">Email         : <?php echo $row['email'] ?> </li>
             <li class="list-group-item">City          : <?php echo $row['city'] ?> </li>
             <li class="list-group-item">Country       : <?php echo $row['country'] ?> </li>
@@ -45,5 +45,7 @@
            <button class="btn btn-primary" name="changePassword">Change Password</button>
        </form>
     </div>
+
+    <div style="margin-top:200px;"></div>
 </body>
 </html>

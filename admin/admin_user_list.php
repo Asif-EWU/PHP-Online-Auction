@@ -35,8 +35,8 @@
             <?php while($row = mysqli_fetch_array($result)) { ?>
                 <tr style="cursor: pointer;" onclick="window.location='admin_single_user.php?id=<?php echo $row['id']?>'">
                     <th scope="row"><?php echo $index++; ?></th>
-                    <td><?php echo $row['id'] ?></td>
-                    <td><?php echo $row['name'] ?></td>
+                    <td><?php echo $row['user_id'] ?></td>
+                    <td><?php echo $row['user_name'] ?></td>
                     <td><?php echo $row['email'] ?></td>
                 </tr>
             <?php } ?>

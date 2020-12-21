@@ -11,8 +11,8 @@
         $dbPassword = $row["password"];
         if(! password_verify($password, $dbPassword)) return false;
         
-        $_SESSION["id"] = $row["id"];
-        $_SESSION["name"] = $row["name"];
+        $_SESSION["user_id"] = $row["user_id"];
+        $_SESSION["user_name"] = $row["user_name"];
         setcookie("email", $email, time() + (3600 * 24 * 30), "/");
         setcookie("password", $password, time() + (3600 * 24 * 30), "/");
         if($remember) setcookie("logout", 0, time() + (3600 * 24 * 30), "/");

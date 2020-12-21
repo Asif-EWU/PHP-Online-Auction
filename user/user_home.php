@@ -5,6 +5,7 @@
     $query = "SELECT * FROM product";
     $result = mysqli_query($db, $query);
     $row = mysqli_fetch_array($result);
+    $productId = $row["product_id"];   
     $name = $row["name"];
     $basePrice = "Base Price: $ " . $row["base_price"];
     $lastBid = "Last Bid: $ 98.29";
@@ -61,7 +62,7 @@
                 <h5><?php echo $basePrice ?></h5>
                 <h5><?php echo $lastBid ?></h5>
                 <p><?php echo $endDate ?></p>
-                <button class="btn btn-block btn-primary" onclick="window.location='user_single_product.php?id=<?php echo $name?>'">Explore</button>
+                <button class="btn btn-block btn-primary" onclick="window.location='user_single_product.php?productId=<?php echo $productId?>'">Explore</button>
             </div>
         </div>        
     </div>

@@ -1,44 +1,5 @@
-<!-- <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container">
-        <a class="navbar-brand" href="#">Navbar</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="../user/request_auction.php">Request Auction</a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Dropdown
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="#">Action</a>
-                    <a class="dropdown-item" href="#">Another action</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#">Something else here</a>
-                    </div>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link disabled" href="#">Disabled</a>
-                </li>
-            </ul>
-            <form class="form-inline my-2 my-lg-0">
-                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-            </form>
-        </div>
-    </div>
-</nav> -->
-
-
 <?php
-    if(isset($_POST['logout'])) {
+    if(isset($_GET['logout'])) {
         session_destroy();
         if(isset($_COOKIE["logout"])) setcookie("logout", 1, time() + (3600 * 24 * 30), "/");
         header("Refresh:0; url=../index.php");
@@ -46,14 +7,37 @@
 ?>
 
 
-<ul>
+<!-- <ul>
     <li><a href="user_home.php">Home</a></li>
     <li><a href="user_request_auction.php">Request Auction</a></li>
     <li><a href="#">Messages</a></li>
     <li><a href="user_profile.php">Profile</a></li>
-    <li>
-        <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
-            <input class="btn btn-link" type="submit" name="logout" value="Logout">
-        </form>
-    </li>
-</ul>
+    <li><a href="user_home.php?logout=true">Logout</a></li>
+    </li> 
+</ul> -->
+
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light justify-content-around p-0 mb-5">
+    <a class="navbar-brand h1" href="#">
+        <img src="../images/auction1.png" width="150" height="60" class="d-inline-block align-top" alt="">
+    </a>
+    <div class="navbar-nav h4">
+        <a class="nav-item nav-link mr-3 active" href="user_home.php"><i class="fas fa-home"></i> Home</a>
+        <a class="nav-item nav-link mr-3" href="user_request_auction.php"><i class="fas fa-satellite-dish"></i> Request Auction</a>
+        <a class="nav-item nav-link mr-3" href="#"><i class="fas fa-layer-group"></i> Arrangements</a>
+        <a class="nav-item nav-link mr-3" href="#"><i class="far fa-chart-bar"></i> Participations</a>
+        <a class="nav-item nav-link mr-3" href="#"><i class="fas fa-trophy"></i> Wins</a>
+    </div>
+    <div class="navbar-nav h4">
+        <a class="nav-item nav-link" href="user_profile.php"><i class="fas fa-user"></i> Profile</a>
+        <a class="nav-item nav-link" href="user_home.php?logout=true"><i class="fas fa-sign-out-alt"></i> Logout</a>
+    </div>
+</nav>
+
+<!-- <nav class="navbar navbar-light bg-light justify-content-between">
+  <a class="navbar-brand">Navbar</a>
+  <form class="form-inline">
+    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+  </form>
+</nav> -->

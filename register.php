@@ -104,7 +104,7 @@
             }
             else
             {
-                $query = "INSERT INTO user (name, email, password, address, city, country, country_code, gender, dob, age) 
+                $query = "INSERT INTO user (user_name, email, password, address, city, country, country_code, gender, dob, age) 
                     VALUES ('$name', '$email', '$hashedPassword', '$address', '$city', '$country', '$countryCode', '$gender', '$dob', '$age')";
                 if(mysqli_query($db, $query)) {
                     $registrationStatus = "Account created successfully !!";

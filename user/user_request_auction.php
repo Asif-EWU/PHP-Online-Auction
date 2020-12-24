@@ -46,8 +46,8 @@
 
         if(! $errCount) {
             // insert operation in product table
-            $query = "INSERT INTO product(owner_id, name, base_price, image1, image2, image3, description1, description2, description3, description4, description5) 
-            VALUES ('$ownerId', '$name', '$basePrice', '$newImageName1', '$newImageName2', '$newImageName3', '$description1', '$description2', '$description3', '$description4', '$description5')";
+            $query = "INSERT INTO product(product_id, product_name, base_price, image1, image2, image3, description1, description2, description3, description4, description5) 
+            VALUES ('', '$name', '$basePrice', '$newImageName1', '$newImageName2', '$newImageName3', '$description1', '$description2', '$description3', '$description4', '$description5')";
             
             if(mysqli_query($db, $query)) {
                 // insert operation in product_status table
@@ -63,7 +63,7 @@
                 header("Refresh: 1");
             }
             else {
-                $status = "<p class='alert alert-success'>Request Failed !!</p>";
+                $status = "<p class='alert alert-warning'>Request Failed !!</p>";
                 echo("Error description: " . mysqli_error($db));
             }
         }

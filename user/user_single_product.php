@@ -4,28 +4,43 @@
 
     if(isset($_GET['productId'])) $_SESSION['user_single_productId'] = $_GET['productId'];
     $productId = $_SESSION['user_single_productId'];
+
+    $status = "";
+    if(isset($_POST['bid'])) {
+        $userId = $_SESSION['user_id'];
+        $amount = $_POST['price'];
+        $query = "REPLACE INTO bid(product_id, user_id, amount, time) VALUES ('$productId', '$userId', '$amount', now()) ";
+        $status = "<p class='alert alert-success'>Placed Bid Successfully !!</p>";
+        header("Refresh:1; ");
+    }
     
-    $query = "SELECT * FROM product NATURAL JOIN product_owner NATURAL JOIN user WHERE product_id = '$productId' ";
-    $result = mysqli_query($db, $query);
-    $row = mysqli_fetch_array($result);
+    $query1 = "SELECT * FROM product NATURAL JOIN product_status NATURAL JOIN user NATURAL JOIN product_category NATURAL JOIN duration WHERE product_id = '$productId' ";
+    $query2 = "SELECT * FROM bid NATURAL JOIN user WHERE product_id = '$productId' ";
+    $result1 = mysqli_query($db, $query1);
+    $result2 = mysqli_query($db, $query2);
+    $row1 = mysqli_fetch_array($result1);
+    $row2 = mysqli_fetch_array($result2);
 
-    $userId = $row['user_id'];
-    $productName = $row['product_name'];
-    $userName = $row['user_name'];
-    $basePrice = $row['base_price'];
-    $lastBid = 34.98;
-    $lastBidder = "John Doe";
+    // $ownerId = $row['user_id'];
+    $ownerName = $row1['user_name'];
+    $endDate = $row1['end_date'];
+    $category = $row1['category'];
+    $subCategory = $row1['sub_category'];
+    
+    $productName = $row1['product_name'];
+    $basePrice = $row1['base_price'];
+    $image1 = $row1['image1'];
+    $image2 = $row1['image2']; 
+    $image3 = $row1['image3'];
+    $description1 = $row1['description1'];
+    $description2 = $row1['description2'];
+    $description3 = $row1['description3'];
+    $description4 = $row1['description4'];
+    $description5 = $row1['description5'];
 
-    $startDate = "21 Dec, 2020";
-    $endDate = "21 Dec, 2020";
-    $image1 = $row['image1'];
-    $image2 = $row['image2']; 
-    $image3 = $row['image3'];
-    $description1 = $row['description1'];
-    $description2 = $row['description2'];
-    $description3 = $row['description3'];
-    $description4 = $row['description4'];
-    $description5 = $row['description5'];
+    $lastBid = $row2['amount'];
+    $lastBidderId = $row2['user_id'];
+    $lastBidderName = $row2['user_name'];
 
     $displayImage = $image1;
     if(isset($_GET['productImage1'])) $displayImage = $image1;
@@ -61,27 +76,28 @@
                 <img src=<?php echo '../uploads/' . $displayImage ?> alt="">
             </div>
             <div class="mini-image text-center">
-                <a href="user_single_product.php?productImage1=true">
+                <a href="<?php echo $_SERVER['PHP_SELF'] . '?productImage1=true' ?>">
                     <img src=<?php echo '../uploads/' . $image1 ?> alt="">
                 </a>
-                <a href="user_single_product.php?productImage2=true">
+                <a href="<?php echo $_SERVER['PHP_SELF'] . '?productImage2=true' ?>">
                     <img src=<?php echo '../uploads/' . $image2 ?> alt="">
                 </a>
-                <a href="user_single_product.php?productImage3=true">
+                <a href="<?php echo $_SERVER['PHP_SELF'] . '?productImage3=true' ?>">
                     <img src=<?php echo '../uploads/' . $image3 ?> alt="">
                 </a>
             </div>
         </div>
         <div class="description-section col-md-6">
+            <?php echo $status ?>
+
             <h2><?php echo $productName?></h2>
-            <p>Owned by: <?php echo $userName?></p>
+            <h5><?php echo $category . ' / ' . $subCategory ?></h5> <br>
+            <p>
+                Owned by: <?php echo $ownerName?> <br>
+                End Date: <span class="h5"><?php echo $endDate?></span>
+            </p>
             <hr />
 
-            <p>
-                Start Date: <?php echo $startDate?>
-                <br />
-                End Date: <?php echo $endDate?>
-            </p>
             <div class="bid-section d-flex flex-row align-items-center">
                 <div class="price col-md-5 pl-0">
                     Base Price: <br>
@@ -89,14 +105,14 @@
                     Last Bid: <br>
                     <span class="h4">$<?php echo $lastBid?></span> <br>
                     Last Bidder: <br>
-                    <span class="h4">$<?php echo $lastBidder?></span> <br>
+                    <span class="h4">$<?php echo "$lastBidderName ($lastBidderId)"?></span> <br>
 
                 </div>
                 <div class="bid col-md-7">
                     <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
                         <label for="bid-price">Place Your Bid (higher than last bid)</label>
                         <input type="number" class="form-control" id="bid-price" min="<?php echo $lastBid+1 ?>" step=".01" pattern="^\d*(\.\d{0,2})?$" name="price" value="<?php echo $lastBid+1 ?>" placeholder="Max 2 decimal points" required>
-                        <input class="btn btn-primary mt-2" type="submit" name="submit" value="Submit">
+                        <input class="btn btn-primary mt-2" type="submit" name="bid" value="Place Bid">
                     </form>
                 </div>
             </div>

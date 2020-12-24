@@ -2,7 +2,7 @@
     session_start();
     require_once('../includes/database.php');
 
-    $query = "SELECT * FROM product NATURAL JOIN duration NATURAL JOIN product_status WHERE status='ongoing' ";
+    $query = "SELECT * FROM product NATURAL JOIN product_status WHERE status='pending' ";
     $result = mysqli_query($db, $query);
 ?>
 
@@ -21,11 +21,11 @@
     .product-deck {
         display: flex;
         flex-wrap: wrap;
-        justify-content: flex-start;
+        justify-content: space-between;
     }
     .product {
         width: 30%;
-        margin: 0 15px 20px;
+        margin-bottom: 30px;
         border: 1px solid lightgrey;
         padding: 10px;
     }
@@ -43,34 +43,31 @@
     @media (min-width: 768px) {
         .product {width: 30% }
     }
+    @media (min-width: 992px) {
+        .product {width: 22% }
+    }
 </style>
 <body>
-    <?php include('../includes/user_navbar.php'); ?>
+    <?php include('../includes/admin_navbar.php'); ?>
     <div class="container">
         <div class="product-deck">
             <?php 
-            While($row = mysqli_fetch_array($result)) {
-                $productId = $row['product_id'];
-                $query2 = "SELECT * FROM bid WHERE product_id='$productId' ";
-                $result2 = mysqli_query($db, $query2);
-                if(mysqli_num_rows($result2) > 0) {
-                    $row2 = mysqli_fetch_array($result2);
-                    $lastBid = $row2['amount'];
-                }
-                else $lastBid = $row['base_price'];
-
+            while($row = mysqli_fetch_array($result)) { 
+                $productId = $row["product_id"];   
+                $name = $row["product_name"];
+                $basePrice = "Base Price: $" . $row["base_price"];
                 $image = "../uploads/" . $row["image1"];
             ?>
                 <div class="product">
                     <img src="<?php echo $image ?>" alt="">
-                    <h4><?php echo $row['product_name'] ?></h4>
-                    <h6>Base Price $<?php echo $row['base_price'] ?></h6>
-                    <h6>Last Bid: $<?php echo $lastBid ?></h6>
-                    <p>End Date: <?php echo $row['end_date'] ?></p>
-                    <button class="btn btn-block btn-primary" onclick="window.location='user_single_product.php?productId=<?php echo $productId?>'">Explore</button>
+                    <h4><?php echo $name ?></h4>
+                    <h6><?php echo $basePrice ?></h6>
+                    <h6><?php echo $lastBid ?></h6>
+                    <p><?php echo $endDate ?></p>
+                    <button class="btn btn-block btn-primary" onclick="window.location='admin_single_product.php?productId=<?php echo $productId?>'">Explore</button>
                 </div>
-            <?php } ?>      
-        </div>  
+            <?php } ?>
+        </div>        
     </div>
 </body>
 </html>

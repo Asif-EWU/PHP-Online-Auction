@@ -7,13 +7,22 @@
 
     $status = "";
     if(isset($_POST['bid'])) {
-        $userId = $_SESSION['user_id'];
-        $amount = $_POST['price'];
-        $query = "REPLACE INTO bid(product_id, user_id, amount, time) VALUES ('$productId', '$userId', '$amount', now()) ";
+        $query = "SELECT * FROM duration WHERE productId = '$productId' ";
         $result = mysqli_query($db, $query);
-        if($result) $status = "<p class='alert alert-success'>Placed Bid Successfully !!</p>";
-        else $status = "<p class='alert alert-warning'>Failed to Place Bid !!</p>";
-        header("Refresh:1");
+        $row = mysqli_fetch_array($result);
+        $endTimestamp = $row['end_date'];
+        $currentTimestamp = date('Y-m-d H:i:s');
+        
+        if($endTimestamp < $currentTimestamp) $status = "<p class='alert alert-warning'>Auction Time is Over !!</p>";
+        else {
+            $userId = $_SESSION['user_id'];
+            $amount = $_POST['price'];
+            $query = "REPLACE INTO bid(product_id, user_id, amount, time) VALUES ('$productId', '$userId', '$amount', '$currentTimestamp') ";
+            $result = mysqli_query($db, $query);
+            if($result) $status = "<p class='alert alert-success'>Placed Bid Successfully !!</p>";
+            else $status = "<p class='alert alert-warning'>Failed to Place Bid !!</p>";
+            header("Refresh:1");
+        }
     }
     
     $query1 = "SELECT * FROM product NATURAL JOIN product_status NATURAL JOIN user NATURAL JOIN product_category NATURAL JOIN duration WHERE product_id = '$productId' ";
@@ -123,7 +132,7 @@
             <h5><?php echo $category . ' / ' . $subCategory ?></h5> <br>
             <p>
                 Owned by: <?php echo $ownerName?> <br>
-                Duration: <?php echo $duration ?> <br>
+                Duration: <?php echo $duration ?> Days <br>
                 Closes: <span class="h5"><?php echo $endDate?></span>
             </p>
             <hr />

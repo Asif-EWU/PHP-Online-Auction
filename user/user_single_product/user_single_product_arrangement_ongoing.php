@@ -112,7 +112,7 @@
             <h5><?php echo $category . ' / ' . $subCategory ?></h5> <br>
             <p>
                 Owned by: <?php echo $ownerName?> <br>
-                Duration: <?php echo $duration ?> <br>
+                Duration: <?php echo $duration ?> Days <br>
                 Closes: <span class="h5"><?php echo $endDate?></span>
             </p>
             <hr />

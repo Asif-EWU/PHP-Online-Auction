@@ -99,7 +99,7 @@
             <h2><?php echo $productName?></h2>
             <p>
                 Owned by: <?php echo $ownerName?> <br>
-                Duration: <span class="h5"><?php echo $duration ?></span>
+                Duration: <?php echo $duration ?> Days
             </p>
             <hr />
 

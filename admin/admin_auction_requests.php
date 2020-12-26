@@ -43,9 +43,6 @@
     @media (min-width: 768px) {
         .product {width: 30% }
     }
-    @media (min-width: 992px) {
-        .product {width: 22% }
-    }
 </style>
 <body>
     <?php include('../includes/admin_navbar.php'); ?>
@@ -57,14 +54,19 @@
                 $name = $row["product_name"];
                 $basePrice = "Base Price: $" . $row["base_price"];
                 $image = "../uploads/" . $row["image1"];
+
+                $query1 = "SELECT * FROM product_status NATURAL JOIN user WHERE product_id='$productId' ";
+                $result1 = mysqli_query($db, $query1);
+                $row1 = mysqli_fetch_array($result1);
+                $ownerId = $row1["user_id"];
+                $ownerName = $row1["user_name"];
             ?>
                 <div class="product">
                     <img src="<?php echo $image ?>" alt="">
                     <h4><?php echo $name ?></h4>
                     <h6><?php echo $basePrice ?></h6>
-                    <h6><?php echo $lastBid ?></h6>
-                    <p><?php echo $endDate ?></p>
-                    <button class="btn btn-block btn-primary" onclick="window.location='admin_single_product.php?productId=<?php echo $productId?>'">Explore</button>
+                    <h6><?php echo "Owner: $ownerName ($ownerId)" ?></h6>
+                    <button class="btn btn-block btn-primary mt-4" onclick="window.location='admin_single_product.php?productId=<?php echo $productId?>'">Explore</button>
                 </div>
             <?php } ?>
         </div>        

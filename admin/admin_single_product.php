@@ -15,6 +15,7 @@
     $productName = $row['product_name'];
     $userName = $row['user_name'];
     $basePrice = $row['base_price'];
+    $duration = $row['duration'];
     $nowDate = date('Y-m-d H:i:s');
 
     $image1 = $row['image1'];
@@ -42,25 +43,21 @@
     if(isset($_POST['accept'])) {
         $category = $_POST['category'];
         $subCategory = $_POST['sub_category'];
-        $endDate = $_POST['end_date'];
 
-        $todayDate = date("Y-m-d");
-        if($endDate <= $todayDate) {
-            $status = "<p class='alert alert-warning'>Invalid End Date !!</p>";
-        }
-        else {
-            $query1 = "UPDATE product_status SET status='ongoing' WHERE product_id='$productId' ";
-            $query2 = "INSERT INTO product_category(product_id, category, sub_category) VALUES ('$productId', '$category', '$subCategory') ";
-            $query3 = "INSERT INTO duration(product_id, end_date) VALUES ('$productId', '$endDate') ";
-            $query4 = "INSERT INTO bid(product_id, user_id, amount, time) VALUES ('$productId', '$userId', '$basePrice', '$nowDate') ";
-            mysqli_query($db, $query1);
-            mysqli_query($db, $query2);
-            mysqli_query($db, $query3);
-            mysqli_query($db, $query4);
+        date_default_timezone_set("Asia/Dhaka");
+        $endDate = date("Y-m-d H:i:s", strtotime("+{$duration} days"));
 
-            $status = "<p class='alert alert-success'>Product is Accepted to Auction !!</p>";
-            header("Refresh:1; url=admin_auction_requests.php");
-        }
+        $query1 = "UPDATE product_status SET status='ongoing' WHERE product_id='$productId' ";
+        $query2 = "INSERT INTO product_category(product_id, category, sub_category) VALUES ('$productId', '$category', '$subCategory') ";
+        $query3 = "INSERT INTO duration(product_id, end_date) VALUES ('$productId', '$endDate') ";
+        $query4 = "INSERT INTO bid(product_id, user_id, amount, time) VALUES ('$productId', '$userId', '$basePrice', '$nowDate') ";
+        mysqli_query($db, $query1);
+        mysqli_query($db, $query2);
+        mysqli_query($db, $query3);
+        mysqli_query($db, $query4);
+
+        $status = "<p class='alert alert-success'>Product is Accepted to Auction !!</p>";
+        header("Refresh:1; url=admin_auction_requests.php");
     }
 ?>
 
@@ -78,7 +75,8 @@
             height: 500px;
         }
         .mini-image img {
-            width: 10%;
+            width: 80px;
+            height: 80px;
             margin: 30px 10px;
         }
     </style>
@@ -111,14 +109,15 @@
 
             <h2><?php echo $productName?></h2>
             <p>
-                Owned by: <?php echo $userName?> <br>
-                Base Price: <span class="h4">$<?php echo $basePrice?></span>
+                Owned by: <span class="h5"><?php echo $userName?></span> <br>
+                Base Price: <span class="h5">$<?php echo $basePrice?></span> <br>
+                Duration: <span class="h5"><?php echo $duration . " Days" ?></span>
             </p>
             <hr />
 
             <p>
                 <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
-                    <div class="row">
+                    <div class="row h5">
                         <div class="col-md-6">
                             <label for="category">Category</label>
                             <input class="form-control" type="text" name="category" id="category" value="<?php echo $category ?>" required>
@@ -126,12 +125,6 @@
                         <div class="col-md-6">
                             <label for="sub_category">Sub Category</label>
                             <input class="form-control" type="text" name="sub_category" id="sub_category" value="<?php echo $subCategory ?>" required>
-                        </div>
-                    </div>
-                    <div class="row mt-2">
-                        <div class="col-md-6">
-                            <label for="e_date">End Date: </label>
-                            <input class="form-control" type="date" name="end_date" id="e_date" required>  
                         </div>
                     </div>
                     <input class="btn btn-success mt-3" type="submit" name="accept" value="Accept Request">

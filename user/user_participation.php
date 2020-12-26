@@ -51,14 +51,14 @@
     ?>
 
     <nav class="navbar navbar-expand-lg navbar-light bg-light justify-content-around p-0 mb-5">
-        <a class="navbar-brand h1" href="user_home.php">
+        <a class="navbar-brand h1" href="user_home.php">    
             <img src="../images/auction1.png" width="150" height="60" class="d-inline-block align-top" alt="">
         </a>
         <div class="navbar-nav h5">
-            <a class="nav-item nav-link mr-3 active" href="user_home.php"><i class="fas fa-home"></i> Home</a>
+            <a class="nav-item nav-link mr-3" href="user_home.php"><i class="fas fa-home"></i> Home</a>
             <a class="nav-item nav-link mr-3" href="user_request_auction.php"><i class="fas fa-satellite-dish"></i> Request Auction</a>
             <a class="nav-item nav-link mr-3" href="user_arrangement.php"><i class="fas fa-layer-group"></i> Arrangements</a>
-            <a class="nav-item nav-link mr-3" href="user_participation.php"><i class="far fa-chart-bar"></i> Participations</a>
+            <a class="nav-item nav-link mr-3 active" href="user_participation.php"><i class="far fa-chart-bar"></i> Participations</a>
             <a class="nav-item nav-link mr-3" href="user_win.php"><i class="fas fa-trophy"></i> Wins</a>
         </div>
         <div class="navbar-nav h5">
@@ -69,7 +69,14 @@
 
 
     <div class="container">
+        <h4>Auction: Ongoing</h4> 
+        <hr />
         <?php include('user_includes/user_participation_ongoing.php'); ?>    
+        <br />
+
+        <h4>Auction: Closed</h4>
+        <hr />
+        <?php include('user_includes/user_closed.php'); ?>    
     </div>
 </body>
 </html>

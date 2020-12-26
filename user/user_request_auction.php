@@ -10,6 +10,7 @@
     if(isset($_POST['submit'])) {
         $name = $_POST['name'];
         $basePrice = $_POST['price'];
+        $duration = $_POST['duration'];
         $description1 = $_POST['description1'];
         $description2 = $_POST['description2']; 
         $description3 = $_POST['description3'];
@@ -46,8 +47,8 @@
 
         if(! $errCount) {
             // insert operation in product table
-            $query = "INSERT INTO product(product_id, product_name, base_price, image1, image2, image3, description1, description2, description3, description4, description5) 
-            VALUES ('', '$name', '$basePrice', '$newImageName1', '$newImageName2', '$newImageName3', '$description1', '$description2', '$description3', '$description4', '$description5')";
+            $query = "INSERT INTO product(product_id, product_name, duration, base_price, image1, image2, image3, description1, description2, description3, description4, description5) 
+            VALUES ('', '$name', '$basePrice', '$duration', '$newImageName1', '$newImageName2', '$newImageName3', '$description1', '$description2', '$description3', '$description4', '$description5')";
             
             if(mysqli_query($db, $query)) {
                 // insert operation in product_status table
@@ -60,7 +61,7 @@
                 move_uploaded_file($_FILES["image1"]["tmp_name"], $targetFile1);
                 move_uploaded_file($_FILES["image2"]["tmp_name"], $targetFile2);
                 move_uploaded_file($_FILES["image3"]["tmp_name"], $targetFile3);
-                header("Refresh: 1");
+                header("Refresh:1; url=user_home.php");
             }
             else {
                 $status = "<p class='alert alert-warning'>Request Failed !!</p>";
@@ -76,13 +77,39 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="../css/all.min.css">
+    <link rel="stylesheet" href="../css/fontawesome.min.css">
     <title>Document</title>
 </head>
 <style>
     .pink {color: red;}
 </style>
 <body>
-    <?php include('../includes/user_navbar.php'); ?>    
+    <?php
+        if(isset($_GET['logout'])) {
+            session_destroy();
+            if(isset($_COOKIE["logout"])) setcookie("logout", 1, time() + (3600 * 24 * 30), "/");
+            header("Refresh:0; url=../index.php");
+        }
+    ?>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light justify-content-around p-0 mb-5">
+        <a class="navbar-brand h1" href="user_home.php">
+            <img src="../images/auction1.png" width="150" height="60" class="d-inline-block align-top" alt="">
+        </a>
+        <div class="navbar-nav h5">
+            <a class="nav-item nav-link mr-3" href="user_home.php"><i class="fas fa-home"></i> Home</a>
+            <a class="nav-item nav-link mr-3 active" href="user_request_auction.php"><i class="fas fa-satellite-dish"></i> Request Auction</a>
+            <a class="nav-item nav-link mr-3" href="user_arrangement.php"><i class="fas fa-layer-group"></i> Arrangements</a>
+            <a class="nav-item nav-link mr-3" href="user_participation.php"><i class="far fa-chart-bar"></i> Participations</a>
+            <a class="nav-item nav-link mr-3" href="user_win.php"><i class="fas fa-trophy"></i> Wins</a>
+        </div>
+        <div class="navbar-nav h5">
+            <a class="nav-item nav-link mr-3" href="user_profile.php"><i class="fas fa-user"></i> <?php echo $_SESSION['user_name']?></a>
+            <a class="nav-item nav-link" href="<?php echo $_SERVER['PHP_SELF']."?logout=true"?>"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        </div>
+    </nav>
+
 
     <div class="container mt-5">
         <?php echo $status; ?>
@@ -98,6 +125,28 @@
                 <label for="base_price" class="col-sm-3 col-form-label">Base Price</label>
                 <div class="col-sm-9">
                     <input type="number" class="form-control" id="base_price" min="0" step=".01" pattern="^\d*(\.\d{0,2})?$" name="price" value="<?php echo $basePrice; ?>" placeholder="Enter Base Price up to 2 decimal points" required>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label">Duration</label>
+                <div class="row col-sm-9">
+                    <div class="col-sm-3">
+                        <input type="radio" name="duration" id="duration1" value="3" checked>
+                        <label for="duration1">3 Days</label>
+                    </div>
+                    <div class="col-sm-3">
+                        <input type="radio" name="duration" id="duration2" value="5">
+                        <label for="duration2">5 Days</label>                    
+                    </div>
+                    <div class="col-sm-3">
+                        <input type="radio" name="duration" id="duration3" value="7">
+                        <label for="duration3">7 Days</label>                    
+                    </div>
+                    <div class="col-sm-3">
+                        <input type="radio" name="duration" id="duration4" value="9">
+                        <label for="duration4">9 Days</label>                    
+                    </div>
                 </div>
             </div>
 

@@ -2,39 +2,15 @@
     session_start();
     require_once('../../includes/database.php');
 
-    $userId = $_SESSION['user_id'];
     if(isset($_GET['productId'])) $_SESSION['user_single_productId'] = $_GET['productId'];
     $productId = $_SESSION['user_single_productId'];
-
-    $status = "";
-    if(isset($_POST['bid'])) {
-        $query = "SELECT * FROM duration WHERE product_id='$productId' ";
-        $result = mysqli_query($db, $query);
-        $row = mysqli_fetch_array($result);
-        $endTimestamp = $row['end_date'];
-        date_default_timezone_set("Asia/Dhaka");
-        $currentTimestamp = date('Y-m-d H:i:s');
-        
-        if($endTimestamp < $currentTimestamp) $status = "<p class='alert alert-warning'>Auction Time is Over !!</p>";
-        else {
-            $amount = $_POST['price'];
-            $query = "INSERT INTO bid(product_id, user_id, amount, time) VALUES ('$productId', '$userId', '$amount', '$currentTimestamp') ";
-            $result = mysqli_query($db, $query);
-            if($result) $status = "<p class='alert alert-success'>Placed Bid Successfully !!</p>";
-            else $status = "<p class='alert alert-warning'>Failed to Place Bid !!</p>";
-            header("Refresh:1");
-        }
-    }
     
     $query1 = "SELECT * FROM product NATURAL JOIN product_status NATURAL JOIN user NATURAL JOIN product_category NATURAL JOIN duration WHERE product_id = '$productId' ";
     $query2 = "SELECT * FROM bid NATURAL JOIN user WHERE product_id = '$productId' ORDER BY time DESC LIMIT 1";
-    $query3 = "SELECT * FROM bid NATURAL JOIN user WHERE (product_id = '$productId' AND user_id = '$userId') ORDER BY time DESC LIMIT 1";
     $result1 = mysqli_query($db, $query1);
     $result2 = mysqli_query($db, $query2);
-    $result3 = mysqli_query($db, $query3);
     $row1 = mysqli_fetch_array($result1);
     $row2 = mysqli_fetch_array($result2);
-    $row3 = mysqli_fetch_array($result3);
 
     $ownerName = $row1['user_name'];
     $duration = $row1['duration'];
@@ -53,7 +29,6 @@
     $description4 = $row1['description4'];
     $description5 = $row1['description5'];
 
-    $myLastBid = $row3['amount'];
     $lastBid = $row2['amount'];
     $lastBidderId = $row2['user_id'];
     $lastBidderName = $row2['user_name'];
@@ -138,7 +113,7 @@
             <p>
                 Owned by: <?php echo $ownerName?> <br>
                 Duration: <?php echo $duration ?> Days <br>
-                Closes: <span class="h5"><?php echo $endDate?></span>
+                Closed: <span class="h5"><?php echo $endDate?></span>
             </p>
             <hr />
 
@@ -146,20 +121,14 @@
                 <div class="price col-md-5 pl-0">
                     Base Price: <br>
                     <span class="h4">$<?php echo $basePrice?></span> <br>
-                    My Last Bid: <br>
-                    <span class="h4">$<?php echo $myLastBid?></span> <br>
-                    Last Bid: <br>
+                    Win Bid: <br>
                     <span class="h4">$<?php echo $lastBid?></span> <br>
-                    Bidder: <br>
+                    Winner: <br>
                     <span class="h4">$<?php echo "$lastBidderName ($lastBidderId)"?></span> <br>
 
                 </div>
                 <div class="bid col-md-7">
-                    <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
-                        <label for="bid-price">Place Your Bid (higher than last bid)</label>
-                        <input type="number" class="form-control" id="bid-price" min="<?php echo $lastBid+1 ?>" step=".01" pattern="^\d*(\.\d{0,2})?$" name="price" value="<?php echo $lastBid+1 ?>" placeholder="Max 2 decimal points" required>
-                        <input class="btn btn-primary mt-2" type="submit" name="bid" value="Place Bid">
-                    </form>
+                    <h5 class="text-center">Auction Status: Closed</h5>
                 </div>
             </div>
             <hr />

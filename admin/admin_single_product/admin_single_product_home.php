@@ -2,39 +2,23 @@
     session_start();
     require_once('../../includes/database.php');
 
-    $userId = $_SESSION['user_id'];
     if(isset($_GET['productId'])) $_SESSION['user_single_productId'] = $_GET['productId'];
     $productId = $_SESSION['user_single_productId'];
 
     $status = "";
-    if(isset($_POST['bid'])) {
-        $query = "SELECT * FROM duration WHERE product_id='$productId' ";
-        $result = mysqli_query($db, $query);
-        $row = mysqli_fetch_array($result);
-        $endTimestamp = $row['end_date'];
-        date_default_timezone_set("Asia/Dhaka");
-        $currentTimestamp = date('Y-m-d H:i:s');
-        
-        if($endTimestamp < $currentTimestamp) $status = "<p class='alert alert-warning'>Auction Time is Over !!</p>";
-        else {
-            $amount = $_POST['price'];
-            $query = "INSERT INTO bid(product_id, user_id, amount, time) VALUES ('$productId', '$userId', '$amount', '$currentTimestamp') ";
-            $result = mysqli_query($db, $query);
-            if($result) $status = "<p class='alert alert-success'>Placed Bid Successfully !!</p>";
-            else $status = "<p class='alert alert-warning'>Failed to Place Bid !!</p>";
-            header("Refresh:1");
-        }
+    if(isset($_GET['delete'])) {
+        $query = "DELETE FROM product WHERE product_id = '$productId' ";
+        mysqli_query($db, $query);
+        $status = "<p class='alert alert-warning'>Deleted Item Successfully !!</p>";
+        header("Refresh:1; url=../admin_home.php");
     }
     
     $query1 = "SELECT * FROM product NATURAL JOIN product_status NATURAL JOIN user NATURAL JOIN product_category NATURAL JOIN duration WHERE product_id = '$productId' ";
     $query2 = "SELECT * FROM bid NATURAL JOIN user WHERE product_id = '$productId' ORDER BY time DESC LIMIT 1";
-    $query3 = "SELECT * FROM bid NATURAL JOIN user WHERE (product_id = '$productId' AND user_id = '$userId') ORDER BY time DESC LIMIT 1";
     $result1 = mysqli_query($db, $query1);
     $result2 = mysqli_query($db, $query2);
-    $result3 = mysqli_query($db, $query3);
     $row1 = mysqli_fetch_array($result1);
     $row2 = mysqli_fetch_array($result2);
-    $row3 = mysqli_fetch_array($result3);
 
     $ownerName = $row1['user_name'];
     $duration = $row1['duration'];
@@ -53,7 +37,6 @@
     $description4 = $row1['description4'];
     $description5 = $row1['description5'];
 
-    $myLastBid = $row3['amount'];
     $lastBid = $row2['amount'];
     $lastBidderId = $row2['user_id'];
     $lastBidderName = $row2['user_name'];
@@ -91,23 +74,22 @@
         if(isset($_GET['logout'])) {
             session_destroy();
             if(isset($_COOKIE["logout"])) setcookie("logout", 1, time() + (3600 * 24 * 30), "/");
-            header("Refresh:0; url=../../index.php");
+            header("Refresh:0; url=../index.php");
         }
     ?>
 
     <nav class="navbar navbar-expand-lg navbar-light bg-light justify-content-around p-0 mb-5">
-        <a class="navbar-brand h1" href="../user_home.php">
+        <a class="navbar-brand h1" href="../admin_home.php">
             <img src="../../images/auction1.png" width="150" height="60" class="d-inline-block align-top" alt="">
         </a>
         <div class="navbar-nav h5">
-            <a class="nav-item nav-link mr-3" href="../user_home.php"><i class="fas fa-home"></i> Home</a>
-            <a class="nav-item nav-link mr-3" href="../user_request_auction.php"><i class="fas fa-satellite-dish"></i> Request Auction</a>
-            <a class="nav-item nav-link mr-3" href="../user_arrangement.php"><i class="fas fa-layer-group"></i> Arrangements</a>
-            <a class="nav-item nav-link mr-3" href="../user_participation.php"><i class="far fa-chart-bar"></i> Participations</a>
-            <a class="nav-item nav-link mr-3" href="../user_win.php"><i class="fas fa-trophy"></i> Wins</a>
+            <a class="nav-item nav-link mr-3 active" href="../admin_home.php"><i class="fas fa-home"></i> Home</a>
+            <a class="nav-item nav-link mr-3" href="../admin_user_list.php"><i class="fas fa-address-book"></i> User List</a>
+            <a class="nav-item nav-link mr-3" href="../admin_auction_requests.php"><i class="fas fa-satellite-dish"></i> Auction Requests</a>
+            <a class="nav-item nav-link mr-3" href="../admin_refresh_status.php"><i class="fas fa-sync-alt"></i> Refresh Status</a>
         </div>
         <div class="navbar-nav h5">
-            <a class="nav-item nav-link mr-3" href="../user_profile.php"><i class="fas fa-user"></i> <?php echo $_SESSION['user_name']?></a>
+            <a class="nav-item nav-link" href="../admin_profile.php"><i class="fas fa-user"></i> <?php echo $_SESSION['user_name']?></a>
             <a class="nav-item nav-link" href="<?php echo $_SERVER['PHP_SELF']."?logout=true"?>"><i class="fas fa-sign-out-alt"></i> Logout</a>
         </div>
     </nav>
@@ -132,7 +114,10 @@
         </div>
         <div class="description-section col-md-6">
             <?php echo $status ?>
-
+            
+            <a href="<?php echo $_SERVER['PHP_SELF'] . '?delete=true' ?>">
+                <button class="btn btn-danger">Delete Item</button>
+            </a>
             <h2><?php echo $productName?></h2>
             <h5><?php echo $category . ' / ' . $subCategory ?></h5> <br>
             <p>
@@ -146,8 +131,6 @@
                 <div class="price col-md-5 pl-0">
                     Base Price: <br>
                     <span class="h4">$<?php echo $basePrice?></span> <br>
-                    My Last Bid: <br>
-                    <span class="h4">$<?php echo $myLastBid?></span> <br>
                     Last Bid: <br>
                     <span class="h4">$<?php echo $lastBid?></span> <br>
                     Bidder: <br>
@@ -155,11 +138,7 @@
 
                 </div>
                 <div class="bid col-md-7">
-                    <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
-                        <label for="bid-price">Place Your Bid (higher than last bid)</label>
-                        <input type="number" class="form-control" id="bid-price" min="<?php echo $lastBid+1 ?>" step=".01" pattern="^\d*(\.\d{0,2})?$" name="price" value="<?php echo $lastBid+1 ?>" placeholder="Max 2 decimal points" required>
-                        <input class="btn btn-primary mt-2" type="submit" name="bid" value="Place Bid">
-                    </form>
+                    <h4>Auction Status: Ongoing</h4>
                 </div>
             </div>
             <hr />

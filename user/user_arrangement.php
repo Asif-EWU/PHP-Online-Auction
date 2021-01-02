@@ -25,6 +25,7 @@
         margin: 0 15px 20px;
         border: 1px solid lightgrey;
         padding: 10px;
+        box-shadow: 10px 10px 25px lightgrey;
     }
     .product img {
         width: 100%;
@@ -69,19 +70,19 @@
 
 
     <div class="container">
-        <h4>Auction: Pending</h4> 
+        <h4>Status: Pending</h4> 
         <hr />
-        <?php include('user_includes/user_pending.php'); ?>    
+        <?php include('user_includes/user_arrangement_pending.php'); ?>    
         <br />
 
-        <h4>Auction: Ongoing</h4> 
+        <h4>Status: Ongoing</h4> 
         <hr />
         <?php include('user_includes/user_arrangement_ongoing.php'); ?>    
         <br />
 
-        <h4>Auction: Closed</h4>
+        <h4>Status: Closed</h4>
         <hr />
-        <?php include('user_includes/user_closed.php'); ?>    
+        <?php include('user_includes/user_arrangement_closed.php'); ?>    
     </div>
 </body>
 </html>

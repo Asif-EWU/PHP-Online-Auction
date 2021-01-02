@@ -25,6 +25,7 @@
         margin: 0 15px 20px;
         border: 1px solid lightgrey;
         padding: 10px;
+        box-shadow: 10px 10px 25px lightgrey;
     }
     .product img {
         width: 100%;
@@ -69,7 +70,7 @@
 
 
     <div class="container">
-        <?php include('user_includes/user_participation_ongoing.php'); ?>    
+        <?php include('user_includes/user_ongoing.php'); ?>    
     </div>
 </body>
 </html>

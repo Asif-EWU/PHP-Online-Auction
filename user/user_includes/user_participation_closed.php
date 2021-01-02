@@ -1,6 +1,6 @@
 <?php
     $userId = $_SESSION['user_id'];
-    $query = "SELECT * FROM product NATURAL JOIN duration NATURAL JOIN product_status WHERE (status='ongoing' AND user_id<>'$userId')";
+    $query = "SELECT * FROM product NATURAL JOIN duration NATURAL JOIN product_status WHERE (status='closed' AND user_id<>'$userId')";
     $result = mysqli_query($db, $query);
 
     $count = 0;
@@ -26,9 +26,9 @@
             <h4><?php echo $row['product_name'] ?></h4>
             <h6>Base Price: $<?php echo $row['base_price'] ?></h6>
             <h6>Last Bid: $<?php echo $lastBid ?></h6>
-            <p>Closes: <?php echo $row['end_date'] ?></p>
+            <p>Closed: <?php echo $row['end_date'] ?></p>
             <button class="btn btn-block btn-primary mt-4" 
-                onclick="window.location='user_single_product/user_single_product_participation_ongoing.php?productId=<?php echo $productId?>'">
+                onclick="window.location='user_single_product/user_single_product_participation_closed.php?productId=<?php echo $productId?>'">
                 Explore
             </button>
         </div>

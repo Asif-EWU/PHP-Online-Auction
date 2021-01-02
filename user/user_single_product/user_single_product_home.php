@@ -28,13 +28,10 @@
     
     $query1 = "SELECT * FROM product NATURAL JOIN product_status NATURAL JOIN user NATURAL JOIN product_category NATURAL JOIN duration WHERE product_id = '$productId' ";
     $query2 = "SELECT * FROM bid NATURAL JOIN user WHERE product_id = '$productId' ORDER BY time DESC LIMIT 1";
-    $query3 = "SELECT * FROM bid NATURAL JOIN user WHERE (product_id = '$productId' AND user_id = '$userId') ORDER BY time DESC LIMIT 1";
     $result1 = mysqli_query($db, $query1);
     $result2 = mysqli_query($db, $query2);
-    $result3 = mysqli_query($db, $query3);
     $row1 = mysqli_fetch_array($result1);
     $row2 = mysqli_fetch_array($result2);
-    $row3 = mysqli_fetch_array($result3);
 
     $ownerName = $row1['user_name'];
     $duration = $row1['duration'];
@@ -53,7 +50,6 @@
     $description4 = $row1['description4'];
     $description5 = $row1['description5'];
 
-    $myLastBid = $row3['amount'];
     $lastBid = $row2['amount'];
     $lastBidderId = $row2['user_id'];
     $lastBidderName = $row2['user_name'];
@@ -146,8 +142,6 @@
                 <div class="price col-md-5 pl-0">
                     Base Price: <br>
                     <span class="h4">$<?php echo $basePrice?></span> <br>
-                    My Last Bid: <br>
-                    <span class="h4">$<?php echo $myLastBid?></span> <br>
                     Last Bid: <br>
                     <span class="h4">$<?php echo $lastBid?></span> <br>
                     Bidder: <br>

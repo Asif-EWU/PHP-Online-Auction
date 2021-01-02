@@ -6,7 +6,7 @@
     $productId = $_SESSION['user_single_productId'];
     
     $query1 = "SELECT * FROM product NATURAL JOIN product_status NATURAL JOIN user NATURAL JOIN product_category NATURAL JOIN duration WHERE product_id = '$productId' ";
-    $query2 = "SELECT * FROM bid NATURAL JOIN user WHERE product_id = '$productId' ";
+    $query2 = "SELECT * FROM bid NATURAL JOIN user WHERE product_id = '$productId' ORDER BY time DESC LIMIT 1";
     $result1 = mysqli_query($db, $query1);
     $result2 = mysqli_query($db, $query2);
     $row1 = mysqli_fetch_array($result1);
@@ -45,8 +45,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <link rel="stylesheet" href="../css/all.min.css">
-    <link rel="stylesheet" href="../css/fontawesome.min.css">
+    <link rel="stylesheet" href="../../css/all.min.css">
+    <link rel="stylesheet" href="../../css/fontawesome.min.css">
     <title>Document</title>
 
     <style>

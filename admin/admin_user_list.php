@@ -3,7 +3,7 @@
     require_once("../includes/database.php");
 
     $index = 1;
-    $query = "SELECT * from user";
+    $query = "SELECT * FROM user";
     $result = mysqli_query($db, $query);
 ?>
 

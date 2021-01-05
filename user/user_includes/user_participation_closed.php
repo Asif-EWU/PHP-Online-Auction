@@ -1,6 +1,12 @@
 <?php
+    $category = $categoryCheck = "";
+    if(isset($_GET['category'])) {
+        $category = $_GET['category'];
+        $categoryCheck = " AND category='" . $category . "'";
+    }
+
     $userId = $_SESSION['user_id'];
-    $query = "SELECT * FROM product NATURAL JOIN duration NATURAL JOIN product_status WHERE (status='closed' AND user_id<>'$userId')";
+    $query = "SELECT * FROM product NATURAL JOIN duration NATURAL JOIN product_status NATURAL JOIN product_category WHERE status='closed' AND user_id<>'$userId' " . $categoryCheck;
     $result = mysqli_query($db, $query);
 
     $count = 0;

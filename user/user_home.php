@@ -72,5 +72,7 @@
     <div class="container">
         <?php include('user_includes/user_ongoing.php'); ?>    
     </div>
+
+    <?php include('../includes/footer.php'); ?>    
 </body>
 </html>

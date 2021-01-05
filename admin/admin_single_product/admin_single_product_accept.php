@@ -2,48 +2,62 @@
     session_start();
     require_once('../../includes/database.php');
 
+    $category = $endDate = $status = "";
+
     if(isset($_GET['productId'])) $_SESSION['user_single_productId'] = $_GET['productId'];
     $productId = $_SESSION['user_single_productId'];
-
-    $status = "";
-    if(isset($_GET['delete'])) {
-        $query = "DELETE FROM product WHERE product_id = '$productId' ";
-        mysqli_query($db, $query);
-        $status = "<p class='alert alert-warning'>Deleted Item Successfully !!</p>";
-        header("Refresh:1; url=../admin_home.php");
-    }
     
-    $query1 = "SELECT * FROM product NATURAL JOIN product_status NATURAL JOIN user NATURAL JOIN product_category NATURAL JOIN duration WHERE product_id = '$productId' ";
-    $query2 = "SELECT * FROM win NATURAL JOIN user WHERE product_id = '$productId' ";
-    $result1 = mysqli_query($db, $query1);
-    $result2 = mysqli_query($db, $query2);
-    $row1 = mysqli_fetch_array($result1);
-    $row2 = mysqli_fetch_array($result2);
+    $query = "SELECT * FROM product NATURAL JOIN product_status NATURAL JOIN user WHERE product_id = '$productId' ";
+    $result = mysqli_query($db, $query);
+    $row = mysqli_fetch_array($result);
 
-    $ownerName = $row1['user_name'];
-    $duration = $row1['duration'];
-    $endDate = $row1['end_date'];
-    $category = $row1['category'];
-    
-    $productName = $row1['product_name'];
-    $basePrice = $row1['base_price'];
-    $image1 = $row1['image1'];
-    $image2 = $row1['image2']; 
-    $image3 = $row1['image3'];
-    $description1 = $row1['description1'];
-    $description2 = $row1['description2'];
-    $description3 = $row1['description3'];
-    $description4 = $row1['description4'];
-    $description5 = $row1['description5'];
+    $userId = $row['user_id'];
+    $productName = $row['product_name'];
+    $userName = $row['user_name'];
+    $basePrice = $row['base_price'];
+    $duration = $row['duration'];
+    $nowDate = date('Y-m-d H:i:s');
 
-    $lastBid = $row2['amount'];
-    $lastBidderId = $row2['user_id'];
-    $lastBidderName = $row2['user_name'];
+    $image1 = $row['image1'];
+    $image2 = $row['image2']; 
+    $image3 = $row['image3'];
+    $description1 = $row['description1'];
+    $description2 = $row['description2'];
+    $description3 = $row['description3'];
+    $description4 = $row['description4'];
+    $description5 = $row['description5'];
 
     $displayImage = $image1;
     if(isset($_GET['productImage1'])) $displayImage = $image1;
     if(isset($_GET['productImage2'])) $displayImage = $image2;
     if(isset($_GET['productImage3'])) $displayImage = $image3;
+
+    
+    if(isset($_GET['reject'])) {
+        $query = "DELETE FROM product WHERE product_id='$productId' ";
+        mysqli_query($db, $query);
+        $status = "<p class='alert alert-warning'>Product is Rejected and Deleted from Product List !!</p>";
+        header("Refresh:1; url=../admin_auction_requests.php");
+    }
+    
+    if(isset($_POST['accept'])) {
+        $category = $_POST['category'];
+
+        date_default_timezone_set("Asia/Dhaka");
+        $endDate = date("Y-m-d H:i:s", strtotime("+{$duration} days"));
+
+        $query1 = "UPDATE product_status SET status='ongoing' WHERE product_id='$productId' ";
+        $query2 = "INSERT INTO product_category(product_id, category, sub_category) VALUES ('$productId', '$category') ";
+        $query3 = "INSERT INTO duration(product_id, end_date) VALUES ('$productId', '$endDate') ";
+        $query4 = "INSERT INTO bid(product_id, user_id, amount, time) VALUES ('$productId', '$userId', '$basePrice', '$nowDate') ";
+        mysqli_query($db, $query1);
+        mysqli_query($db, $query2);
+        mysqli_query($db, $query3);
+        mysqli_query($db, $query4);
+
+        $status = "<p class='alert alert-success'>Product is Accepted to Auction !!</p>";
+        header("Refresh:1; url=../admin_auction_requests.php");
+    }
 ?>
 
 <!DOCTYPE html>
@@ -92,7 +106,6 @@
             <a class="nav-item nav-link" href="<?php echo $_SERVER['PHP_SELF']."?logout=true"?>"><i class="fas fa-sign-out-alt"></i> Logout</a>
         </div>
     </nav>
-
     
     <div class="container d-flex flex-row">
         <div class="image-section col-md-6">
@@ -113,33 +126,29 @@
         </div>
         <div class="description-section col-md-6">
             <?php echo $status ?>
-            
-            <a href="<?php echo $_SERVER['PHP_SELF'] . '?delete=true' ?>">
-                <button class="btn btn-danger">Delete Item</button>
+            <a href="admin_single_product_accept.php?reject=true">
+                <button class="btn btn-danger">Reject Request</button>
             </a>
+
             <h2><?php echo $productName?></h2>
-            <h5><?php echo $category?></h5> <br>
             <p>
-                Owned by: <?php echo $ownerName?> <br>
-                Duration: <?php echo $duration ?> Days <br>
-                Closes: <span class="h5"><?php echo $endDate?></span>
+                Owned by: <span class="h5"><?php echo $userName?></span> <br>
+                Base Price: <span class="h5">$<?php echo $basePrice?></span> <br>
+                Duration: <span class="h5"><?php echo $duration . " Days" ?></span>
             </p>
             <hr />
 
-            <div class="bid-section d-flex flex-row align-items-center">
-                <div class="price col-md-5 pl-0">
-                    Base Price: <br>
-                    <span class="h4">$<?php echo $basePrice?></span> <br>
-                    Winner Bid: <br>
-                    <span class="h4">$<?php echo $lastBid?></span> <br>
-                    Winner: <br>
-                    <span class="h4">$<?php echo "$lastBidderName ($lastBidderId)"?></span> <br>
-
-                </div>
-                <div class="bid col-md-7">
-                    <h4>Auction Status: Closed</h4>
-                </div>
-            </div>
+            <p>
+                <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+                    <div class="row h5">
+                        <div class="col-md-6">
+                            <label for="category">Category</label>
+                            <input class="form-control" type="text" name="category" id="category" value="<?php echo $category ?>" placeholder="ex: Electronics" required>
+                        </div>
+                    </div>
+                    <input class="btn btn-success mt-3" type="submit" name="accept" value="Accept Request">
+                </form>
+            </p>
             <hr />
 
             <ul>

@@ -48,7 +48,7 @@
         if(! $errCount) {
             // insert operation in product table
             $query = "INSERT INTO product(product_id, product_name, duration, base_price, image1, image2, image3, description1, description2, description3, description4, description5) 
-            VALUES ('', '$name', '$basePrice', '$duration', '$newImageName1', '$newImageName2', '$newImageName3', '$description1', '$description2', '$description3', '$description4', '$description5')";
+            VALUES ('', '$name', '$duration', '$basePrice', '$newImageName1', '$newImageName2', '$newImageName3', '$description1', '$description2', '$description3', '$description4', '$description5')";
             
             if(mysqli_query($db, $query)) {
                 // insert operation in product_status table

@@ -78,7 +78,7 @@
         }
     ?>
 
-    <nav class="navbar navbar-expand-lg navbar-light bg-light justify-content-around p-0 mb-5">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light justify-content-between py-0 px-3 mb-5">   <!-- HERE -->
         <a class="navbar-brand h1" href="user_home.php">
             <img src="../images/auction1.png" width="150" height="60" class="d-inline-block align-top" alt="">
         </a>
@@ -109,8 +109,16 @@
             </div>
 
             <h3 class="category-heading text-center p-2">Filter</h3>
-            <div>
-                
+            <div class="category-list p-2">
+                <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+                    <label for="min-price">Min Price</label>
+                    <input type="number" class="form-control" id="min-price" step=".01" pattern="^\d*(\.\d{0,2})?$" name="min-price" value="0" required>
+                     
+                    <label for="max-price">Max Price</label>
+                    <input type="number" class="form-control" id="max-price" step=".01" pattern="^\d*(\.\d{0,2})?$" name="max-price" value="999999" required>
+                    
+                    <input class="btn btn-block btn-outline-primary mt-2" type="submit" name="filter" value="Search">
+                </form>
             </div>
         </div>
         <div class="col-md-10">

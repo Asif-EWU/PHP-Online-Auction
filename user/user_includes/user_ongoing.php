@@ -1,11 +1,5 @@
 <?php
-    $category = $categoryCheck = "";
-    if(isset($_GET['category'])) {
-        $category = $_GET['category'];
-        $categoryCheck = " AND category=" . $category;
-    }
-
-    $query = "SELECT * FROM product NATURAL JOIN duration NATURAL JOIN product_status NATURAL JOIN product_category WHERE status='ongoing' " . $categoryCheck;
+    $query = "SELECT * FROM product NATURAL JOIN duration NATURAL JOIN product_status WHERE status='ongoing' ";
     $result = mysqli_query($db, $query);
     
     if(! mysqli_num_rows($result)) {

@@ -1,5 +1,5 @@
 <?php
-    $category = $categoryCheck = "";
+    $category = $categoryCheck = $filterCheck = "";
     if(isset($_GET['category'])) {
         $category = $_GET['category'];
         $categoryCheck = " AND category='" . $category . "'";
@@ -20,10 +20,16 @@
         $result2 = mysqli_query($db, $query2);
         
         if(! mysqli_num_rows($result2)) continue;
-        $count++;
-
+        
         $row2 = mysqli_fetch_array($result2);
         $lastBid = $row2['amount'];
+        
+        if(isset($_POST['filter'])) {
+            $minPrice = $_POST['min-price'];
+            $maxPrice = $_POST['max-price'];
+            if($lastBid < $minPrice || $lastBid > $maxPrice) continue;
+        }
+        $count++;
 
         $image = "../uploads/" . $row["image1"];
     ?>

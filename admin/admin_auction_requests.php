@@ -93,7 +93,7 @@
                     <h4><?php echo $name ?></h4>
                     <h6><?php echo $basePrice ?></h6>
                     <h6><?php echo "Owner: $ownerName ($ownerId)" ?></h6>
-                    <button class="btn btn-block btn-primary mt-4" onclick="window.location='admin_single_product.php?productId=<?php echo $productId?>'">Explore</button>
+                    <button class="btn btn-block btn-primary mt-4" onclick="window.location='admin_single_product/admin_single_product_accept.php?productId=<?php echo $productId?>'">Explore</button>
                 </div>
             <?php } ?>
         </div>        

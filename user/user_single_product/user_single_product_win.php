@@ -16,7 +16,6 @@
     $duration = $row1['duration'];
     $endDate = $row1['end_date'];
     $category = $row1['category'];
-    $subCategory = $row1['sub_category'];
     
     $productName = $row1['product_name'];
     $basePrice = $row1['base_price'];
@@ -107,7 +106,7 @@
         </div>
         <div class="description-section col-md-6">
             <h2><?php echo $productName?></h2>
-            <h5><?php echo $category . ' / ' . $subCategory ?></h5> <br>
+            <h5><?php echo $category?></h5> <br>
             <p>
                 Owned by: <?php echo $ownerName?> <br>
                 Duration: <?php echo $duration ?> Days <br>

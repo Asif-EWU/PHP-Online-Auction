@@ -13,7 +13,7 @@
     $row2 = mysqli_fetch_array($result2);
 
     $ownerName = $row1['user_name'];
-    $durarion = $row1['durarion'];
+    $duration = $row1['duration'];
     $endDate = $row1['end_date'];
     $category = $row1['category'];
     
@@ -105,8 +105,6 @@
             </div>
         </div>
         <div class="description-section col-md-6">
-            <?php echo $status ?>
-
             <h2><?php echo $productName?></h2>
             <h5><?php echo $category?></h5> <br>
             <p>

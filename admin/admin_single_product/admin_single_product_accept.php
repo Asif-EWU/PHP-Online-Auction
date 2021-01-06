@@ -47,7 +47,7 @@
         $endDate = date("Y-m-d H:i:s", strtotime("+{$duration} days"));
 
         $query1 = "UPDATE product_status SET status='ongoing' WHERE product_id='$productId' ";
-        $query2 = "INSERT INTO product_category(product_id, category, sub_category) VALUES ('$productId', '$category') ";
+        $query2 = "INSERT INTO product_category(product_id, category) VALUES ('$productId', '$category') ";
         $query3 = "INSERT INTO duration(product_id, end_date) VALUES ('$productId', '$endDate') ";
         $query4 = "INSERT INTO bid(product_id, user_id, amount, time) VALUES ('$productId', '$userId', '$basePrice', '$nowDate') ";
         mysqli_query($db, $query1);
@@ -87,7 +87,7 @@
         if(isset($_GET['logout'])) {
             session_destroy();
             if(isset($_COOKIE["logout"])) setcookie("logout", 1, time() + (3600 * 24 * 30), "/");
-            header("Refresh:0; url=../index.php");
+            header("Refresh:0; url=../../index.php");
         }
     ?>
 

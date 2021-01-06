@@ -1,5 +1,5 @@
 <?php
-    $category = $categoryCheck = $filterCheck = "";
+    $category = $categoryCheck = "";
     if(isset($_GET['category'])) {
         $category = $_GET['category'];
         $categoryCheck = " AND category='" . $category . "'";

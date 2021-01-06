@@ -73,7 +73,7 @@
         if(isset($_GET['logout'])) {
             session_destroy();
             if(isset($_COOKIE["logout"])) setcookie("logout", 1, time() + (3600 * 24 * 30), "/");
-            header("Refresh:0; url=../index.php");
+            header("Refresh:0; url=../../index.php");
         }
     ?>
 

@@ -1,9 +1,6 @@
 <?php
     session_start();
     require_once('../includes/database.php');
-
-    $query = "SELECT DISTINCT category FROM product_category";
-    $result = mysqli_query($db, $query);
 ?>
 
 <!DOCTYPE html>
@@ -49,10 +46,13 @@
     }
     .product {
         width: 30%;
-        margin: 0 15px 20px;
+        margin: 0 15px 50px;
         border: 1px solid lightgrey;
         padding: 10px;
         box-shadow: 10px 10px 25px lightgrey;
+    }
+    .product:hover{
+        box-shadow: 20px 20px 25px darkgrey;
     }
     .product img {
         width: 100%;
@@ -102,7 +102,10 @@
             <div class="category-list">
                 <a href="<?php echo $_SERVER['PHP_SELF'] ?>" class="category-item">All Category</a>
                 <?php 
-                    while($row = mysqli_fetch_array($result)) {
+                    $c_query = "SELECT DISTINCT category FROM product_category";
+                    $c_result = mysqli_query($db, $c_query);
+
+                    while($c_row = mysqli_fetch_array($c_result)) {
                         echo '<a href="' . $_SERVER['PHP_SELF'] . '?category=' . $row['category'] . '" class="category-item">' . $row['category'] . '</a>';
                     }
                 ?>

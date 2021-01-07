@@ -18,6 +18,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="../css/all.min.css">
     <link rel="stylesheet" href="../css/fontawesome.min.css">
+    <link rel="shortcut icon" href="../images/logo.png" type="image/x-icon">
     <title>Auction</title>
 </head>
 
@@ -34,7 +35,7 @@
         }
     ?>
 
-    <nav class="navbar navbar-expand-lg navbar-light bg-light justify-content-around p-0 mb-5">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light justify-content-between py-0 px-3 mb-5">
         <a class="navbar-brand h1" href="user_home.php">
             <img src="../images/auction1.png" width="150" height="60" class="d-inline-block align-top" alt="">
         </a>

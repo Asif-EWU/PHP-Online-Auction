@@ -129,7 +129,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="css/register.css">
     <link rel="shortcut icon" href="images/logo.png" type="image/x-icon">
-    <title>Auction - Registration</title>
+    <title>Auction</title>
 </head>
 <body>
     <img class="bg-image" src="images/judge.jpg" alt="">

@@ -1,10 +1,14 @@
-<?php
-    $query = "SELECT * FROM product NATURAL JOIN duration NATURAL JOIN product_status WHERE status='ongoing' ";
+<?php    
+    $category = $categoryCheck = "";
+    if(isset($_GET['category'])) {
+        $category = $_GET['category'];
+        $categoryCheck = " AND category='" . $category . "'";
+    }
+
+    $query = "SELECT * FROM product NATURAL JOIN duration NATURAL JOIN product_status NATURAL JOIN product_category WHERE status='ongoing' " . $categoryCheck;
     $result = mysqli_query($db, $query);
     
-    if(! mysqli_num_rows($result)) {
-        echo "<p>No Result to show</p>";
-    } 
+    $count = 0;
 ?>
 
 <div class="product-deck">
@@ -15,6 +19,13 @@
         $result2 = mysqli_query($db, $query2);
         $row2 = mysqli_fetch_array($result2);
         $lastBid = $row2['amount'];
+
+        if(isset($_POST['filter'])) {
+            $minPrice = $_POST['min-price'];
+            $maxPrice = $_POST['max-price'];
+            if($lastBid < $minPrice || $lastBid > $maxPrice) continue;
+        }
+        $count++;
 
         $image = "../uploads/" . $row["image1"];
     ?>
@@ -29,5 +40,8 @@
                 Explore
             </button>
         </div>
-    <?php } ?>      
+    <?php }
+
+    if(! $count) echo "<p>No Result to show</p>";
+    ?>        
 </div>

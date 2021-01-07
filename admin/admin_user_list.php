@@ -15,8 +15,14 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="../css/all.min.css">
     <link rel="stylesheet" href="../css/fontawesome.min.css">
-    <title>Document</title>
+    <link rel="shortcut icon" href="../images/logo.png" type="image/x-icon">
+    <title>Auction</title>
 </head>
+
+<style>
+    <?php include('../includes/my_style.php') ?>
+</style>
+
 <body>
     <?php
         if(isset($_GET['logout'])) {
@@ -43,7 +49,7 @@
     </nav>
 
     
-    <div class="container">
+    <main class="container">
         <h1 class="display-4 text-center my-4">Users List</h1>
 
         <table class="table table-bordered table-hover">
@@ -68,8 +74,8 @@
 
             </tbody>
         </table>
-        </div>
+    </main>
 
-    <div style="margin-top:200px;"></div>
+    <?php include('../includes/footer.php'); ?>   
 </body>
 </html>

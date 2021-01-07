@@ -1,6 +1,13 @@
 <?php
     session_start();
     require_once('../includes/database.php');
+
+    $minPrice = 0;
+    $maxPrice = 100000;
+    if(isset($_POST['filter'])) {
+        $minPrice = $_POST['min-price'];
+        $maxPrice = $_POST['max-price'];
+    }
 ?>
 
 <!DOCTYPE html>
@@ -11,37 +18,14 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="../css/all.min.css">
     <link rel="stylesheet" href="../css/fontawesome.min.css">
+    <link rel="shortcut icon" href="../images/logo.png" type="image/x-icon">
     <title>Auction</title>
 </head>
 
 <style>
-    .product-deck {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: flex-start;
-    }
-    .product {
-        width: 30%;
-        margin: 0 15px 20px;
-        border: 1px solid lightgrey;
-        padding: 10px;
-        box-shadow: 10px 10px 25px lightgrey;
-    }
-    .product img {
-        width: 100%;
-        height: 300px;
-    }
-    
-    @media (min-width: 100px) {
-        .product {width: 100% }
-    }
-    @media (min-width: 576px) {
-        .product {width: 48% }
-    }
-    @media (min-width: 768px) {
-        .product {width: 30% }
-    }
+    <?php include('../includes/my_style.php') ?>
 </style>
+
 <body>
     <?php
         if(isset($_GET['logout'])) {
@@ -51,7 +35,7 @@
         }
     ?>
 
-    <nav class="navbar navbar-expand-lg navbar-light bg-light justify-content-around p-0 mb-5">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light justify-content-between py-0 px-3 mb-5">
         <a class="navbar-brand h1" href="admin_home.php">
             <img src="../images/auction1.png" width="150" height="60" class="d-inline-block align-top" alt="">
         </a>
@@ -67,8 +51,39 @@
         </div>
     </nav>
 
-    <div class="container">
-        <?php include('admin_includes/admin_ongoing.php'); ?>      
-    </div>
+    <main class="row">
+        <div class="col-md-2 side-bar pt-0">
+            <h3 class="category-heading text-center p-2">Category</h3>
+            <div class="category-list">
+                <a href="<?php echo $_SERVER['PHP_SELF'] ?>" class="category-item">All Category</a>
+                <?php 
+                    $c_query = "SELECT DISTINCT category FROM product_category";
+                    $c_result = mysqli_query($db, $c_query);
+
+                    while($c_row = mysqli_fetch_array($c_result)) {
+                        echo '<a href="' . $_SERVER['PHP_SELF'] . '?category=' . $c_row['category'] . '" class="category-item">' . $c_row['category'] . '</a>';
+                    }
+                ?>
+            </div>
+
+            <h3 class="category-heading text-center p-2">Filter</h3>
+            <div class="category-list p-2">
+                <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+                    <label for="min-price">Min Price</label>
+                    <input type="number" class="form-control" id="min-price" step=".01" pattern="^\d*(\.\d{0,2})?$" name="min-price" value="<?php echo $minPrice?>" required>
+                     
+                    <label for="max-price">Max Price</label>
+                    <input type="number" class="form-control" id="max-price" step=".01" pattern="^\d*(\.\d{0,2})?$" name="max-price" value="<?php echo $maxPrice?>" required>
+                    
+                    <input class="btn btn-block btn-outline-primary mt-2" type="submit" name="filter" value="Search">
+                </form>
+            </div>
+        </div>
+        <div class="col-md-9">
+            <?php include('admin_includes/admin_ongoing.php'); ?>      
+        </div>
+    </main>
+
+    <?php include('../includes/footer.php'); ?>   
 </body>
 </html>

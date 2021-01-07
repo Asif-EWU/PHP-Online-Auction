@@ -19,7 +19,12 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="../css/all.min.css">
     <link rel="stylesheet" href="../css/fontawesome.min.css">
-    <title>Bootstrap</title>
+    <link rel="shortcut icon" href="../images/logo.png" type="image/x-icon">
+    <title>Auction</title>
+
+    <style>
+        <?php include('../includes/my_style.php') ?>
+    </style>
 </head>
 <body>
     <?php
@@ -47,7 +52,7 @@
     </nav>
 
 
-    <div class="container">
+    <main class="container">
         <br><h1 class="text-center">PROFILE</h1><br>
 
         <ul class="list-group">
@@ -68,6 +73,8 @@
            <button class="btn btn-primary" name="editProfile">Edit Profile</button>
            <button class="btn btn-primary" name="changePassword">Change Password</button>
        </form>
-    </div>
+    </main>
+
+    <?php include('../includes/footer.php'); ?>   
 </body>
 </html>

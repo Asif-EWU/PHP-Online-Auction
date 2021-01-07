@@ -1,13 +1,17 @@
-<?php
+<?php    
+    $category = $categoryCheck = "";
+    if(isset($_GET['category'])) {
+        $category = $_GET['category'];
+        $categoryCheck = " AND category='" . $category . "'";
+    }
+
     date_default_timezone_set("Asia/Dhaka");
     $nowDate = date('Y-m-d H:i:s');
 
-    $query = "SELECT * FROM product NATURAL JOIN duration NATURAL JOIN product_status WHERE (status='ongoing' AND end_date < '$nowDate')";
+    $query = "SELECT * FROM product NATURAL JOIN duration NATURAL JOIN product_status NATURAL JOIN product_category WHERE status='ongoing' AND end_date < '$nowDate' " . $categoryCheck;
     $result = mysqli_query($db, $query);
     
-    if(! mysqli_num_rows($result)) {
-        echo "<p>No Result to show</p>";
-    } 
+    $count = 0;
 ?>
 
 <div class="product-deck">
@@ -27,6 +31,13 @@
         $query3 = "INSERT INTO win(product_id, user_id, amount) VALUES ('$productId', '$lastBidder', '$lastBid')";
         mysqli_query($db, $query3);
 
+        if(isset($_POST['filter'])) {
+            $minPrice = $_POST['min-price'];
+            $maxPrice = $_POST['max-price'];
+            if($lastBid < $minPrice || $lastBid > $maxPrice) continue;
+        }
+        $count++;
+
         $image = "../uploads/" . $row["image1"];
     ?>
         <div class="product">
@@ -40,5 +51,8 @@
                 Explore
             </button>
         </div>
-    <?php } ?>      
+    <?php }
+
+    if(! $count) echo "<p>No Result to show</p>";
+    ?>          
 </div>

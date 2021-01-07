@@ -49,9 +49,11 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="../css/all.min.css">
     <link rel="stylesheet" href="../css/fontawesome.min.css">
-    <title>Document</title>
+    <link rel="shortcut icon" href="../images/logo.png" type="image/x-icon">
+    <title>Auction</title>
 </head>
 <style>
+    <?php include('../includes/my_style.php') ?>
     .pink {color: red;}
 </style>
 <body>
@@ -81,7 +83,7 @@
     </nav>
 
 
-    <div class="container mt-5">
+    <main class="container mt-5">
         <?php echo $status; ?>
         <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
             <div class="form-group row">
@@ -112,6 +114,8 @@
                 </div>
             </div>
         </form>
-    </div>
+    </main>
+
+    <?php include('../includes/footer.php'); ?>   
 </body>
 </html>

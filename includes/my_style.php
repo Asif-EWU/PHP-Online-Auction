@@ -1,6 +1,15 @@
 main {
     min-height: 66vh;
 }
+.display-image img {
+    width: 100%;
+    height: 500px;
+}
+.mini-image img {
+    width: 80px;
+    height: 80px;
+    margin: 30px 10px;
+}
 .side-bar {
     padding: 30px;
 }
@@ -48,7 +57,7 @@ footer {
     text-align: center;
     background-color: lightgrey;
     padding: 20px;
-    margin-top: 130px;
+    margin-top: 150px;
     text-align: center;
     width: 100%;
 }

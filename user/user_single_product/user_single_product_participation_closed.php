@@ -51,18 +51,11 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="../../css/all.min.css">
     <link rel="stylesheet" href="../../css/fontawesome.min.css">
-    <title>Document</title>
+    <link rel="shortcut icon" href="../../images/logo.png" type="image/x-icon">
+    <title>Auction</title>
 
     <style>
-        .display-image img {
-            width: 100%;
-            height: 500px;
-        }
-        .mini-image img {
-            width: 80px;
-            height: 80px;
-            margin: 30px 10px;
-        }
+        <?php include('../../includes/my_style.php') ?>
     </style>
 </head>
 <body>
@@ -92,7 +85,7 @@
     </nav>
 
     
-    <div class="container d-flex flex-row">
+    <main class="container d-flex flex-row">
         <div class="image-section col-md-6">
             <div class="display-image">
                 <img src=<?php echo '../../uploads/' . $displayImage ?> alt="">
@@ -145,6 +138,8 @@
                 <li><?php echo $description5?></li>
             </ul>
         </div>
-    </div>
+    </main>
+
+    <?php include('../../includes/footer.php'); ?>  
 </body>
 </html>

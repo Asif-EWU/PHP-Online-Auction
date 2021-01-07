@@ -59,7 +59,7 @@
         }
 
         if(! $errCount) {
-            $query = "UPDATE user SET address='$address', city='$city', country='$country', country_code='$countryCode' WHERE id='$id' ";
+            $query = "UPDATE user SET address='$address', city='$city', country='$country', country_code='$countryCode' WHERE user_id='$id' ";
             if(mysqli_query($db, $query)) {
                 $status = "<p class='alert alert-success'>Account updated successfully !!</p>";
                 header("Refresh:1; url=user_profile.php");

@@ -48,7 +48,7 @@ footer {
     text-align: center;
     background-color: lightgrey;
     padding: 20px;
-    margin-top: 150px;
+    margin-top: 130px;
     text-align: center;
     width: 100%;
 }

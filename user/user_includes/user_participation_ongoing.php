@@ -1,6 +1,12 @@
 <?php
+    $category = $categoryCheck = "";
+    if(isset($_GET['category'])) {
+        $category = $_GET['category'];
+        $categoryCheck = " AND category='" . $category . "'";
+    }
+
     $userId = $_SESSION['user_id'];
-    $query = "SELECT * FROM product NATURAL JOIN duration NATURAL JOIN product_status WHERE (status='ongoing' AND user_id<>'$userId')";
+    $query = "SELECT * FROM product NATURAL JOIN duration NATURAL JOIN product_status NATURAL JOIN product_category WHERE status='ongoing' AND user_id<>'$userId' " . $categoryCheck;
     $result = mysqli_query($db, $query);
 
     $count = 0;
@@ -14,10 +20,16 @@
         $result2 = mysqli_query($db, $query2);
         
         if(! mysqli_num_rows($result2)) continue;
-        $count++;
 
         $row2 = mysqli_fetch_array($result2);
         $lastBid = $row2['amount'];
+        
+        if(isset($_POST['filter'])) {
+            $minPrice = $_POST['min-price'];
+            $maxPrice = $_POST['max-price'];
+            if($lastBid < $minPrice || $lastBid > $maxPrice) continue;
+        }
+        $count++;
 
         $image = "../uploads/" . $row["image1"];
     ?>

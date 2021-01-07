@@ -82,7 +82,20 @@
     <title>Document</title>
 </head>
 <style>
-    .pink {color: red;}
+    .red {
+        color: red;
+    }
+    .container {
+        min-height: 68vh;
+    }
+    footer {
+        text-align: center;
+        background-color: lightgrey;
+        padding: 20px;
+        margin-top: 150px;
+        text-align: center;
+        width: 100%;
+    }
 </style>
 <body>
     <?php
@@ -189,7 +202,7 @@
                 <label for="image1" class="col-sm-3 col-form-label">Image 1 (Display Image)</label>
                 <div class="col-sm-9">
                     <input type="file" class="form-control-file" name="image1" id="image1" required>
-                    <span class="pink"><?php echo $image1Err; ?></span>
+                    <span class="red"><?php echo $image1Err; ?></span>
                 </div>
             </div>
 
@@ -197,7 +210,7 @@
                 <label for="image2" class="col-sm-3 col-form-label">Image 2</label>
                 <div class="col-sm-9">
                     <input type="file" class="form-control-file" name="image2" id="image2" required>
-                    <span class="pink"><?php echo $image2Err; ?></span>
+                    <span class="red"><?php echo $image2Err; ?></span>
                 </div>
             </div>
 
@@ -205,7 +218,7 @@
                 <label for="image3" class="col-sm-3 col-form-label">Image 3</label>
                 <div class="col-sm-9">
                     <input type="file" class="form-control-file" name="image3" id="image3" required>
-                    <span class="pink"><?php echo $image3Err; ?></span>
+                    <span class="red"><?php echo $image3Err; ?></span>
                 </div>
             </div>
 
@@ -216,5 +229,7 @@
             </div>
         </form>
     </div>
+
+    <?php include('../includes/footer.php'); ?>  
 </body>
 </html>

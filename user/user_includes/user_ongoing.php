@@ -10,10 +10,6 @@
     $result = mysqli_query($db, $query);
 
     $count = 0;
-    
-    // if(! mysqli_num_rows($result)) {
-    //     echo "<p>No Result to show</p>";
-    // } 
 ?>
 
 <div class="product-deck">

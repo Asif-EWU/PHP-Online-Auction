@@ -105,8 +105,6 @@
             </div>
         </div>
         <div class="description-section col-md-6">
-            <?php echo $status ?>
-
             <h2><?php echo $productName?></h2>
             <h5><?php echo $category?></h5> <br>
             <p>

@@ -2,6 +2,7 @@
     session_start();
     require_once('../../includes/database.php');
 
+    date_default_timezone_set("Asia/Dhaka");
     $category = $endDate = $status = "";
 
     if(isset($_GET['productId'])) $_SESSION['user_single_productId'] = $_GET['productId'];
@@ -35,8 +36,6 @@
     
     if(isset($_POST['accept'])) {
         $category = $_POST['category'];
-
-        date_default_timezone_set("Asia/Dhaka");
         $endDate = date("Y-m-d H:i:s", strtotime("+{$duration} days"));
 
         $query1 = "UPDATE product_status SET status='ongoing' WHERE product_id='$productId' ";

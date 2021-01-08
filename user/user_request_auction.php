@@ -2,20 +2,27 @@
     session_start();
     require_once("../includes/database.php");
 
+    function filterInput($data) {
+        $data = trim($data);
+        $data = stripslashes($data);
+        $data = htmlspecialchars($data);
+        return $data;
+    }
+
     $ownerId = $_SESSION["user_id"];
     $errCount = 0;
     $name = $basePrice = $description1 = $description2 = $description3 = $description4 = $description5 = $imageName1 = $imageName2 = $imageName3 = "";
     $image1Err = $image2Err = $image3Err = $status = "";
 
     if(isset($_POST['submit'])) {
-        $name = $_POST['name'];
-        $basePrice = $_POST['price'];
-        $duration = $_POST['duration'];
-        $description1 = $_POST['description1'];
-        $description2 = $_POST['description2']; 
-        $description3 = $_POST['description3'];
-        $description4 = $_POST['description4'];
-        $description5 = $_POST['description5']; 
+        $name = filterInput($_POST['name']);
+        $basePrice = filterInput($_POST['price']);
+        $duration = filterInput($_POST['duration']);
+        $description1 = filterInput($_POST['description1']);
+        $description2 = filterInput($_POST['description2']); 
+        $description3 = filterInput($_POST['description3']);
+        $description4 = filterInput($_POST['description4']);
+        $description5 = filterInput($_POST['description5']); 
         $imageName1 = $_FILES["image1"]["name"];
         $imageName2 = $_FILES["image2"]["name"];
         $imageName3 = $_FILES["image3"]["name"];

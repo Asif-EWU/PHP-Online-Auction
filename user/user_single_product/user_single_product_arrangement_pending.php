@@ -5,7 +5,7 @@
     if(isset($_GET['productId'])) $_SESSION['user_single_productId'] = $_GET['productId'];
     $productId = $_SESSION['user_single_productId'];
     
-    $query1 = "SELECT * FROM product NATURAL JOIN product_status NATURAL JOIN user NATURAL JOIN duration WHERE product_id = '$productId' ";
+    $query1 = "SELECT * FROM product NATURAL JOIN product_status NATURAL JOIN user WHERE product_id = '$productId' ";
     $result1 = mysqli_query($db, $query1);
     $row1 = mysqli_fetch_array($result1);
 

@@ -21,7 +21,9 @@
         $count++;
     ?>
         <div class="product">
-            <img src="<?php echo $image ?>" alt="">
+            <div class="text-center">
+                <img src="<?php echo $image ?>" alt="">
+            </div>
             <h4><?php echo $row['product_name'] ?></h4>
             <h6>Base Price: $<?php echo $basePrice ?></h6>
             <button class="btn btn-block btn-primary mt-4" 

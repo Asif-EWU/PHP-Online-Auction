@@ -27,7 +27,9 @@
         $count++;
     ?>
         <div class="product">
-            <img src="<?php echo $image ?>" alt="">
+            <div class="text-center">
+                <img src="<?php echo $image ?>" alt="">
+            </div>
             <h4><?php echo $row['product_name'] ?></h4>
             <h6>Base Price: $<?php echo $row['base_price'] ?></h6>
             <h6>Winner Bid: $<?php echo $winnerBid ?></h6>

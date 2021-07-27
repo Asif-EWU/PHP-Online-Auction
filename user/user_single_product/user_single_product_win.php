@@ -79,7 +79,7 @@
     
     <main class="container d-flex flex-row">
         <div class="image-section col-md-6">
-            <div class="display-image">
+            <div class="display-image text-center">
                 <img src=<?php echo '../../uploads/' . $displayImage ?> alt="">
             </div>
             <div class="mini-image text-center">
